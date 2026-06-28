@@ -7,6 +7,11 @@ import { icon } from '../components/icon.js';
 
 let reportCharts = [];
 
+export function cleanupReportsPage() {
+  reportCharts.forEach((chart) => chart.destroy());
+  reportCharts = [];
+}
+
 export function renderReports() {
   const state = loadState();
   const errorSummary = getErrorSummary(state, todayISO());
@@ -26,8 +31,7 @@ export function renderReports() {
 }
 
 export function bindReportsPage() {
-  reportCharts.forEach((chart) => chart.destroy());
-  reportCharts = [];
+  cleanupReportsPage();
   const state = loadState();
   const activity = getSevenDayActivity(state, todayISO());
   const errors = getErrorSummary(state, todayISO()).byType;

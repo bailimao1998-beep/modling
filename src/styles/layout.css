@@ -74,7 +74,7 @@
   .lesson-outline, .exam-nav { position: static; }
   .lesson-outline { display: flex; overflow-x: auto; padding-bottom: 4px; }
   .lesson-outline h2 { display: none; }
-  .lesson-outline a { flex: 0 0 auto; }
+  .lesson-outline button { flex: 0 0 auto; width: auto; }
 }
 @media (max-width: 700px) {
   .page-heading, .section-heading { display: grid; }

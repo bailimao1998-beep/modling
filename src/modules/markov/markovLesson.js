@@ -1,1 +1,1 @@
-export { renderMarkovSimulator, bindMarkovSimulator } from './markovSimulator.js';
+export { renderMarkovSimulator, bindMarkovSimulator, destroyMarkovSimulator } from './markovSimulator.js';

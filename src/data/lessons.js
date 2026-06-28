@@ -37,6 +37,62 @@ export const lessons = {
     nextLessonId: 'markov-foundations',
     checklist: ['什么是向量', '什么是矩阵', '矩阵的行和列', '矩阵加法', '矩阵乘法', '行乘列规则', '2×2 矩阵乘法练习', '单位矩阵', '矩阵乘方', '2×2 和 3×3 行列式基础']
   },
+  graph: {
+    id: 'graph-foundations',
+    moduleId: 'graph',
+    title: '图论核心复习',
+    subtitle: '从邻接矩阵走到 walks、图拉普拉斯与生成树',
+    topic: 'graph:adjacency',
+    goals: ['从图构造邻接矩阵 A', '用 A^k 读取长度为 k 的 walks 数量', '构造 D 与 L=D-A', '用 Matrix-tree theorem 计算生成树数量'],
+    plainExplanation: '图把对象画成顶点，把关系画成边。邻接矩阵是这张图的数字版本；矩阵乘方会记录不同长度的走法，而图拉普拉斯的余子式行列式会数出生成树。',
+    symbols: [
+      { symbol: 'A', meaning: '邻接矩阵；Aij=1 表示 vi 与 vj 相连' },
+      { symbol: 'A^k', meaning: '其 ij 元素是从 vi 到 vj 长度为 k 的 walks 数量' },
+      { symbol: 'D', meaning: '度矩阵；对角线记录每个顶点的 degree' },
+      { symbol: 'L', meaning: '图拉普拉斯矩阵 L=D-A' },
+      { symbol: 'τ(G)', meaning: '图 G 的生成树数量' }
+    ],
+    formulas: ['L=D-A', '(A^k)_{ij}=\\text{number of walks of length }k', '\\tau(G)=\\det(L^{(r,c)})', '\\tau(K_n)=n^{n-2}'],
+    example: {
+      title: '完整例题：K4 的矩阵与生成树',
+      problem: 'K4 有四个顶点且任意两个顶点相连。求 A、(A⁴)₁₃、L 与生成树数量。',
+      steps: ['A 的对角线为 0，其余元素全为 1。', '计算 A⁴，读取第 1 行第 3 列得到 20。', '每个顶点 degree 为 3，所以 D=diag(3,3,3,3)。', 'L=D-A；删除任一行和任一列后，3×3 minor 的 determinant 为 16。'],
+      answer: '(A⁴)₁₃=20，τ(K4)=16'
+    },
+    guidedPracticeIds: ['g-q4', 'g-q7'],
+    independentPracticeIds: ['g-q1', 'g-q5', 'g-q8'],
+    summary: ['无向简单图的 A 是对称矩阵且对角线为 0。', 'A^k 的元素计数 walks，不要求顶点互不重复。', 'D 只在对角线上记录 degree。', '任一 Laplacian cofactor 的 determinant 给出生成树数量。'],
+    nextLessonId: 'probability-foundations',
+    checklist: ['邻接矩阵 A', '节点 degree', '度矩阵 D', '图拉普拉斯 L', 'walks and paths', '矩阵乘方 A^k', 'Matrix-tree theorem', 'spanning trees']
+  },
+  probability: {
+    id: 'probability-foundations',
+    moduleId: 'probability',
+    title: '概率密度核心复习',
+    subtitle: '把曲线下面积、期望和方差连成一套计算步骤',
+    topic: 'probability:density',
+    goals: ['把区间概率写成密度积分', '正确拆分分段密度的跨区间积分', '计算 E[X] 与 E[X²]', '使用 Var(X)=E[X²]-E[X]²'],
+    plainExplanation: '连续随机变量不会把概率放在单个点上，而是放在曲线下面积里。期望像概率质量的平衡位置，方差则描述这些质量离平衡位置有多分散。',
+    symbols: [
+      { symbol: 'p(x)', meaning: '概率密度函数' },
+      { symbol: 'P(a≤X≤b)', meaning: '密度曲线从 a 到 b 下方的面积' },
+      { symbol: 'E[X]', meaning: '随机变量的带权平均位置' },
+      { symbol: 'E[X²]', meaning: '平方后的二阶矩' },
+      { symbol: 'Var(X)', meaning: '围绕期望的分散程度' }
+    ],
+    formulas: ['P(a\\le X\\le b)=\\int_a^b p(x)\\,dx', 'E[X]=\\int xp(x)\\,dx', 'E[X^2]=\\int x^2p(x)\\,dx', '\\operatorname{Var}(X)=E[X^2]-E[X]^2'],
+    example: {
+      title: '完整例题：三角形密度',
+      problem: 'p(x)=x (0 &lt; x≤1)，p(x)=2-x (1 &lt; x≤2)。求 P(X≤0.5)、E[X] 与 Var(X)。',
+      steps: ['P(X≤0.5)=∫₀^0.5 x dx=1/8。', 'E[X] 分两段计算 ∫₀¹x²dx + ∫₁²x(2-x)dx=1。', 'E[X²]=∫₀¹x³dx + ∫₁²x²(2-x)dx=7/6。', 'Var(X)=7/6-1²=1/6。'],
+      answer: 'P(X≤0.5)=1/8，E[X]=1，Var(X)=1/6'
+    },
+    guidedPracticeIds: ['p-q4', 'p-q8'],
+    independentPracticeIds: ['p-q3', 'p-q5', 'p-q7'],
+    summary: ['连续概率是曲线下面积。', '跨过分段点 x=1 时必须拆成两个积分。', '期望是带权平均位置。', '方差可用 E[X²]-E[X]² 快速计算。'],
+    nextLessonId: 'markov-foundations',
+    checklist: ['概率与补事件', '连续随机变量', '概率密度函数', '区间积分', '分段积分', '期望 E[X]', '二阶矩 E[X²]', '方差 Var(X)']
+  },
   markov: {
     id: 'markov-foundations',
     moduleId: 'markov',

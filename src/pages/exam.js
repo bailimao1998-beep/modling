@@ -8,6 +8,11 @@ import { icon, refreshIcons } from '../components/icon.js';
 let timerId = null;
 let remainingSeconds = 0;
 
+export function cleanupExamPage() {
+  clearInterval(timerId);
+  timerId = null;
+}
+
 function modeFromRoute() { return new URLSearchParams(location.hash.split('?')[1] || '').get('mode'); }
 function timeText(seconds) { return `${String(Math.floor(seconds / 60)).padStart(2, '0')}:${String(seconds % 60).padStart(2, '0')}`; }
 
@@ -41,7 +46,7 @@ export function renderExam() {
 }
 
 export function bindExamPage() {
-  clearInterval(timerId);
+  cleanupExamPage();
   const mode = modeFromRoute();
   if (!mode || getExamTemplate(mode).status === 'preview') return;
   const template = getExamTemplate(mode);

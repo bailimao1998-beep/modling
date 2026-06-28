@@ -1,11 +1,11 @@
 import { renderDashboard } from '../pages/dashboard.js';
 import { renderCourses, bindCoursesPage } from '../pages/courses.js';
-import { renderLesson, bindLessonPage } from '../pages/lesson.js';
-import { renderLabs, bindLabsPage } from '../pages/labs.js';
+import { renderLesson, bindLessonPage, cleanupLessonPage } from '../pages/lesson.js';
+import { renderLabs, bindLabsPage, cleanupLabsPage } from '../pages/labs.js';
 import { renderPractice, bindPracticePage } from '../pages/practice.js';
-import { renderMistakes, bindMistakesPage } from '../pages/mistakes.js';
-import { renderExam, bindExamPage } from '../pages/exam.js';
-import { renderReports, bindReportsPage } from '../pages/reports.js';
+import { renderMistakes, bindMistakesPage, cleanupMistakesPage } from '../pages/mistakes.js';
+import { renderExam, bindExamPage, cleanupExamPage } from '../pages/exam.js';
+import { renderReports, bindReportsPage, cleanupReportsPage } from '../pages/reports.js';
 import { syncAppHeader } from '../components/appHeader.js';
 import { syncNavigation } from '../components/sidebar.js';
 import { refreshIcons } from '../components/icon.js';
@@ -13,13 +13,15 @@ import { refreshIcons } from '../components/icon.js';
 const routes = {
   '/dashboard': { render: renderDashboard, bind: () => {} },
   '/courses': { render: renderCourses, bind: bindCoursesPage },
-  '/lesson': { render: renderLesson, bind: bindLessonPage },
-  '/labs': { render: renderLabs, bind: bindLabsPage },
+  '/lesson': { render: renderLesson, bind: bindLessonPage, cleanup: cleanupLessonPage },
+  '/labs': { render: renderLabs, bind: bindLabsPage, cleanup: cleanupLabsPage },
   '/practice': { render: renderPractice, bind: bindPracticePage },
-  '/mistakes': { render: renderMistakes, bind: bindMistakesPage },
-  '/exam': { render: renderExam, bind: bindExamPage },
-  '/reports': { render: renderReports, bind: bindReportsPage }
+  '/mistakes': { render: renderMistakes, bind: bindMistakesPage, cleanup: cleanupMistakesPage },
+  '/exam': { render: renderExam, bind: bindExamPage, cleanup: cleanupExamPage },
+  '/reports': { render: renderReports, bind: bindReportsPage, cleanup: cleanupReportsPage }
 };
+
+let activeRoute = null;
 
 export function currentPath() {
   const hash = location.hash || '#/dashboard';
@@ -27,10 +29,12 @@ export function currentPath() {
 }
 
 export function renderRoute(target) {
+  activeRoute?.cleanup?.();
   const pathname = currentPath();
   const route = routes[pathname] || routes['/dashboard'];
   target.innerHTML = route.render();
   route.bind();
+  activeRoute = route;
   syncAppHeader(pathname);
   syncNavigation(pathname);
   refreshIcons(document);

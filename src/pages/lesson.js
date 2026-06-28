@@ -4,7 +4,9 @@ import { formulaBlock } from '../components/formula.js';
 import { mutateState } from '../services/storage.js';
 import { updateTopicMastery } from '../services/progress.js';
 import { renderMatrixLessonDemo, bindMatrixLessonDemo } from '../modules/matrix/matrixLesson.js';
-import { renderMarkovSimulator, bindMarkovSimulator } from '../modules/markov/markovLesson.js';
+import { renderMarkovSimulator, bindMarkovSimulator, destroyMarkovSimulator } from '../modules/markov/markovLesson.js';
+import { renderGraphLab, bindGraphLab, destroyGraphLab } from '../modules/graph/graphLesson.js';
+import { renderProbabilityLab, bindProbabilityLab, destroyProbabilityLab } from '../modules/probability/probabilityLesson.js';
 import { icon } from '../components/icon.js';
 
 function moduleFromRoute() {
@@ -21,11 +23,16 @@ function practiceLinks(ids, label) {
 export function renderLesson() {
   const moduleId = moduleFromRoute();
   const lesson = getLessonByModule(moduleId) || getLessonByModule('matrix');
-  const visual = moduleId === 'matrix' ? renderMatrixLessonDemo() : renderMarkovSimulator();
+  const visual = {
+    matrix: renderMatrixLessonDemo,
+    graph: renderGraphLab,
+    probability: renderProbabilityLab,
+    markov: renderMarkovSimulator
+  }[moduleId]?.() || renderMatrixLessonDemo();
   return `<section class="page lesson-page">
     <div class="lesson-hero"><div><a class="back-link" href="#/courses?module=${moduleId}">${icon('arrow-left')} 返回知识地图</a><span class="eyebrow">Interactive Lesson</span><h1>${lesson.title}</h1><p>${lesson.subtitle}</p></div><a class="secondary-button" href="#/practice?module=${moduleId}">${icon('list-checks')} 进入练习</a></div>
     <div class="lesson-layout">
-      <aside class="lesson-outline"><h2>本节结构</h2>${['本节目标','生活化解释','符号说明','关键公式','互动演示','分步骤例题','引导练习','独立练习','本节总结','下一步建议'].map((item,index) => `<a href="#lesson-section-${index + 1}"><span>${index + 1}</span>${item}</a>`).join('')}</aside>
+      <aside class="lesson-outline"><h2>本节结构</h2>${['本节目标','生活化解释','符号说明','关键公式','互动演示','分步骤例题','引导练习','独立练习','本节总结','下一步建议'].map((item,index) => `<button type="button" data-lesson-scroll="lesson-section-${index + 1}"><span>${index + 1}</span>${item}</button>`).join('')}</aside>
       <div class="lesson-content">
         <article class="lesson-section" id="lesson-section-1"><span class="section-number">01</span><h2>本节目标</h2><ul class="goal-list">${lesson.goals.map((goal) => `<li>${icon('target')} ${goal}</li>`).join('')}</ul></article>
         <article class="lesson-section" id="lesson-section-2"><span class="section-number">02</span><h2>生活化解释</h2><p>${lesson.plainExplanation}</p></article>
@@ -45,10 +52,21 @@ export function renderLesson() {
 export function bindLessonPage() {
   const moduleId = moduleFromRoute();
   if (moduleId === 'matrix') bindMatrixLessonDemo(document);
+  if (moduleId === 'graph') bindGraphLab(document);
+  if (moduleId === 'probability') bindProbabilityLab(document);
   if (moduleId === 'markov') bindMarkovSimulator(document);
+  document.querySelectorAll('[data-lesson-scroll]').forEach((button) => button.addEventListener('click', () => {
+    document.getElementById(button.dataset.lessonScroll)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }));
   document.querySelector('[data-complete-lesson]')?.addEventListener('click', () => {
     const lesson = getLessonByModule(moduleId) || getLessonByModule('matrix');
     mutateState((state) => updateTopicMastery(state, lesson.topic, { event: 'lesson-complete' }));
     document.querySelector('[data-lesson-feedback]').innerHTML = '<div class="result-box is-correct"><strong>学习记录已保存</strong><p>接下来完成引导题，把“已接触”推进到“初步理解”。</p></div>';
   });
+}
+
+export function cleanupLessonPage() {
+  destroyGraphLab();
+  destroyProbabilityLab();
+  destroyMarkovSimulator();
 }

@@ -16,6 +16,14 @@ export const examTemplates = [
     status: 'open'
   },
   {
+    id: 'full-beta',
+    title: '50 分结构模拟卷 beta',
+    durationMinutes: 120,
+    description: '按往年卷结构组织矩阵、图论、图拉普拉斯、概率和马尔可夫链五部分。证明题采用步骤填空半自动判分。',
+    questionIds: ['beta-matrix', 'beta-graph', 'beta-laplacian', 'beta-probability', 'beta-markov'],
+    status: 'open'
+  },
+  {
     id: 'full',
     title: '2 小时完整模拟',
     durationMinutes: 120,

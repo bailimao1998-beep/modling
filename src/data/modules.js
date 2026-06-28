@@ -23,8 +23,8 @@ export const modules = [
     id: 'graph',
     title: '图论',
     subtitle: '顶点、边、路径和邻接矩阵',
-    status: 'preview',
-    route: '#/courses?module=graph',
+    status: 'open',
+    route: '#/lesson?module=graph',
     topics: ['graph:introduction', 'graph:vertices-edges', 'graph:directed', 'graph:adjacency', 'graph:degree', 'graph:degree-matrix', 'graph:laplacian', 'graph:walks-paths', 'graph:spanning-tree'],
     examWeight: 10,
     color: '#526b55'
@@ -33,8 +33,8 @@ export const modules = [
     id: 'probability',
     title: '概率论',
     subtitle: '事件、条件概率和分布',
-    status: 'preview',
-    route: '#/courses?module=probability',
+    status: 'open',
+    route: '#/lesson?module=probability',
     topics: ['probability:introduction', 'probability:sample-space', 'probability:variables', 'probability:discrete', 'probability:continuous', 'probability:density', 'probability:expectation', 'probability:variance'],
     examWeight: 10,
     color: '#8a6744'
@@ -50,3 +50,7 @@ export const modules = [
     color: '#765b78'
   }
 ];
+
+export function getModuleTitle(moduleId) {
+  return modules.find((module) => module.id === moduleId)?.title || moduleId;
+}

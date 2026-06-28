@@ -1,3 +1,6 @@
+import { makeReviewItem } from './spacedReview.js';
+import { todayISO } from '../utils/format.js';
+
 export const masteryLabels = ['未学习', '已接触', '初步理解', '基本掌握', '稳定掌握', '考试掌握'];
 
 export function getNextMastery(current = 0, evidence) {
@@ -21,6 +24,25 @@ export function updateTopicMastery(state, topic, evidence) {
     updatedAt: new Date().toISOString()
   };
   return mastery;
+}
+
+export function getAttemptMasteryEvent(question, result, existingReview, dateISO = todayISO()) {
+  if (!result.correct) return 'wrong';
+  if (existingReview?.nextReviewDate && existingReview.nextReviewDate <= dateISO) {
+    return 'review-correct-48h';
+  }
+  if (question.difficulty === 'exam') return 'exam-correct';
+  if (question.type === 'stepped') return 'guided-correct';
+  return 'independent-correct';
+}
+
+export function applyQuestionProgress(state, question, result, dateISO = todayISO()) {
+  state.reviewSchedule ||= {};
+  const existingReview = state.reviewSchedule[question.id] || null;
+  const event = getAttemptMasteryEvent(question, result, existingReview, dateISO);
+  state.reviewSchedule[question.id] = makeReviewItem(question, result.correct, existingReview, dateISO);
+  const mastery = updateTopicMastery(state, question.topic, { event });
+  return { event, mastery, reviewItem: state.reviewSchedule[question.id] };
 }
 
 export function getModuleMastery(state, moduleId) {

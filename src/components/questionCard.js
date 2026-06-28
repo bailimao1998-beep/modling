@@ -1,7 +1,6 @@
 import { gradeQuestion, gradeStep } from '../services/grading.js';
-import { recordQuestionAttempt, mutateState, loadState } from '../services/storage.js';
-import { updateTopicMastery } from '../services/progress.js';
-import { makeReviewItem } from '../services/spacedReview.js';
+import { recordQuestionAttempt, mutateState } from '../services/storage.js';
+import { applyQuestionProgress } from '../services/progress.js';
 import { modules } from '../data/modules.js';
 import { getTopicTitle } from '../data/topics.js';
 import { hintPanel, bindHintPanel } from './hintPanel.js';
@@ -99,9 +98,7 @@ export function bindQuestionCard(root, question, options = {}) {
     if (!options.skipStorage) {
       recordQuestionAttempt(question, result, userAnswer);
       mutateState((state) => {
-        const existing = loadState().reviewSchedule[question.id];
-        state.reviewSchedule[question.id] = makeReviewItem(question, result.correct, existing);
-        updateTopicMastery(state, question.topic, { event: result.correct ? question.difficulty === 'exam' ? 'exam-correct' : question.type === 'stepped' ? 'guided-correct' : 'independent-correct' : 'wrong' });
+        applyQuestionProgress(state, question, result);
       });
     }
     options.onGrade?.(result, userAnswer);

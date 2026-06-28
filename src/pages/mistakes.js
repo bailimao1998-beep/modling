@@ -4,9 +4,15 @@ import { formatDate, todayISO } from '../utils/format.js';
 import { getNextReviewDate } from '../services/spacedReview.js';
 import { getErrorSummary } from '../services/analytics.js';
 import { getTopicTitle } from '../data/topics.js';
+import { getModuleTitle } from '../data/modules.js';
 import { icon, refreshIcons } from '../components/icon.js';
 
 let mistakeChart = null;
+
+export function cleanupMistakesPage() {
+  mistakeChart?.destroy();
+  mistakeChart = null;
+}
 
 function topEntry(values) {
   return Object.entries(values).sort((a, b) => b[1] - a[1])[0] || null;
@@ -14,7 +20,7 @@ function topEntry(values) {
 
 function mistakeCard(mistake) {
   return `<article class="mistake-card ${mistake.understoodAt ? 'is-understood' : ''}" data-mistake-id="${mistake.id}">
-    <div class="question-meta"><span>${mistake.module === 'matrix' ? '数学基础' : '马尔可夫链'}</span><span class="danger-tag">${mistake.errorType}</span>${mistake.understoodAt ? '<span>已理解</span>' : ''}</div>
+    <div class="question-meta"><span>${getModuleTitle(mistake.module)}</span><span class="danger-tag">${mistake.errorType}</span>${mistake.understoodAt ? '<span>已理解</span>' : ''}</div>
     <div class="mistake-heading"><div><h3>${mistake.title}</h3><p>${getTopicTitle(mistake.topic)}</p></div><span class="review-date">${icon('calendar-clock')} ${mistake.nextReviewDate}</span></div>
     <div class="mistake-summary"><div><span>错误步骤</span><strong>${mistake.wrongStep}</strong></div><div><span>正确思路</span><p>${mistake.correctThinking || '回到题目定义和对应步骤重新推导。'}</p></div></div>
     <details class="mistake-detail"><summary>展开作答详情</summary><div class="answer-compare"><div><span>当时答案</span><code>${JSON.stringify(mistake.userAnswer)}</code></div><div><span>参考答案</span><code>${JSON.stringify(mistake.correctAnswer)}</code></div><div><span>记录时间</span><strong>${formatDate(mistake.errorTime)}</strong></div><div><span>已复习</span><strong>${mistake.reviewCount} 次</strong></div></div></details>
@@ -44,7 +50,7 @@ function rerender() {
 }
 
 export function bindMistakesPage() {
-  mistakeChart?.destroy();
+  cleanupMistakesPage();
   const summary = getErrorSummary(loadState(), todayISO());
   const labels = Object.keys(summary.byType);
   const canvas = document.querySelector('[data-mistake-chart]');

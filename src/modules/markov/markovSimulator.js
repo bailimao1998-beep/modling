@@ -10,6 +10,7 @@ const defaultMatrix = [
   [1, 0, 0]
 ];
 const defaultDistribution = [1, 0, 0];
+let activeMarkovSimulator = null;
 
 function matrixEditor(matrix) {
   return `
@@ -82,6 +83,7 @@ export function renderMarkovSimulator() {
 }
 
 export function bindMarkovSimulator(root) {
+  destroyMarkovSimulator();
   const container = root.querySelector('[data-markov-simulator]');
   if (!container) return;
   let currentDistribution = [...defaultDistribution];
@@ -272,4 +274,15 @@ export function bindMarkovSimulator(root) {
   });
 
   sync();
+  activeMarkovSimulator = {
+    destroy() {
+      chart?.destroy();
+      cy?.destroy();
+    }
+  };
+}
+
+export function destroyMarkovSimulator() {
+  activeMarkovSimulator?.destroy();
+  activeMarkovSimulator = null;
 }
