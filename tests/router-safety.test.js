@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { extname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import viteConfig from '../vite.config.js';
 
 const sourceRoot = fileURLToPath(new URL('../src', import.meta.url));
 
@@ -46,4 +47,10 @@ test('application route links remain hash-router links', () => {
   assert.match(sidebarSource, /href:\s*'#\/dashboard'/);
   assert.match(sidebarSource, /href:\s*'#\/exam'/);
   assert.match(examSource, /href="#\/exam/);
+});
+
+test('Vite uses the repository base for builds and previews only', () => {
+  assert.equal(viteConfig({ command: 'serve', isPreview: false }).base, '/');
+  assert.equal(viteConfig({ command: 'build', isPreview: false }).base, '/modling/');
+  assert.equal(viteConfig({ command: 'serve', isPreview: true }).base, '/modling/');
 });

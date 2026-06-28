@@ -2,14 +2,16 @@
 
 一个面向 Heriot-Watt University F11MT Modelling and Tools 课程的本地互动复习系统。项目帮助数学基础较弱的学生通过知识地图、可视化实验、分步骤练习、错题记录和间隔复习建立考试所需的稳定解题步骤。
 
-第三阶段在保留矩阵基础、马尔可夫链、练习、错题本、模拟考试和 localStorage 进度的基础上，补齐图论与概率论核心复习闭环。
+第五阶段在保留四个开放模块和全部学习流程的基础上，完成真实浏览器验收、空答案判分修复、发布清单与 GitHub Pages 构建准备。
 
-## 安装与启动
+## 本地使用
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
+
+打开终端显示的本地地址，通常为 `http://localhost:5173/`。开发模式继续使用根路径，不受 GitHub Pages base 配置影响。
 
 生产构建与预览：
 
@@ -17,6 +19,8 @@ npm run dev
 npm run build
 npm run preview
 ```
+
+完整发布验收见 [`docs/ACCEPTANCE_CHECKLIST.md`](docs/ACCEPTANCE_CHECKLIST.md)。
 
 运行核心逻辑测试：
 
@@ -57,6 +61,7 @@ src/
   styles/         设计令牌、应用布局和组件样式
   utils/          数学、校验和格式化工具
 tests/            核心逻辑、学习分析与第三阶段数学测试
+docs/             阶段设计记录与发布验收清单
 ```
 
 ## 学习数据
@@ -90,9 +95,34 @@ tests/            核心逻辑、学习分析与第三阶段数学测试
 - 修复错题本模块名硬编码，并闭合到期复习与掌握度更新逻辑。
 - 为 Markov、概率、错题和报告图表增加路由卸载清理，避免重复实例。
 
+## 第四、五阶段完成内容
+
+- 页面内滚动统一使用 button + `scrollIntoView`，不会污染 hash router 路径。
+- GitHub Actions CI 在 push 和 pull request 时执行 `npm ci`、`npm test` 与 `npm run build`。
+- 对全部页面、四个实验室、四类练习、错题流程、三种考试和报告图表做真实浏览器验收。
+- 修复空白数值答案被 JavaScript 转换为 0 后意外得分的问题。
+- 升级到 `mathjs 15.2.0`，消除已知 high 级依赖审计问题。
+- 新增发布验收清单和 `/modling/` GitHub Pages 构建 base。
+
+## 部署到 GitHub Pages
+
+仓库名为 `modling`，生产构建资源路径已配置为 `/modling/`：
+
+```bash
+npm ci
+npm test
+npm run deploy:build
+npm run preview
+```
+
+预览时访问终端给出的 `/modling/` 地址。部署前，在 GitHub 仓库 `Settings > Pages` 中将 Source 设为 `GitHub Actions`。
+
+当前仓库尚未启用 Pages，因此本阶段没有加入会在 `main` 推送后立即尝试部署的 workflow，避免制造预期失败。启用 Pages 后可加入 GitHub 官方的 `configure-pages`、`upload-pages-artifact` 和 `deploy-pages` workflow；现有 CI 会继续独立检查测试和构建。
+
 ## 后续计划
 
 - 完成动态系统与递推关系课程和练习。
 - 支持复杂自由文本证明题的自动评分。
 - 完成严格计时、完整说明与打印答题册的两小时考试体验。
 - 为大体积数学与图表依赖增加按路由加载。
+- 启用 GitHub Pages 后加入自动部署 workflow。

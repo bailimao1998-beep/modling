@@ -5,7 +5,10 @@ function normalizeText(value) {
 }
 
 function compareNumeric(actual, expected) {
-  return nearlyEqual(Number(actual), Number(expected));
+  if (actual === null || actual === undefined || String(actual).trim() === '') return false;
+  const actualNumber = Number(actual);
+  const expectedNumber = Number(expected);
+  return Number.isFinite(actualNumber) && Number.isFinite(expectedNumber) && nearlyEqual(actualNumber, expectedNumber);
 }
 
 function compareMatrix(actual, expected) {

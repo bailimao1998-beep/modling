@@ -87,6 +87,32 @@ test('numeric feedback guides retry without exposing the full answer', () => {
   assert.equal(result.feedback.includes('10'), false);
 });
 
+test('blank numeric answers never receive credit for an expected zero', () => {
+  const numeric = gradeQuestion(
+    { type: 'numeric-fill', answer: 0, marks: 2, errorTags: ['计算错误'] },
+    ''
+  );
+  const matrix = gradeQuestion(
+    { type: 'matrix-fill', answer: [[0]], marks: 1, errorTags: ['矩阵乘法错误'] },
+    [['']]
+  );
+  const step = gradeStep(
+    {
+      stepId: 's1',
+      expectedAnswer: 0,
+      marks: 1,
+      validationType: 'numeric',
+      feedbackCorrect: '正确。',
+      feedbackWrong: '请填写答案。'
+    },
+    ''
+  );
+
+  assert.equal(numeric.score, 0);
+  assert.equal(matrix.score, 0);
+  assert.equal(step.score, 0);
+});
+
 test('updates mastery by evidence, with mistakes lowering confidence', () => {
   assert.equal(getNextMastery(0, { event: 'lesson-complete' }), 1);
   assert.equal(getNextMastery(1, { event: 'guided-correct' }), 2);
