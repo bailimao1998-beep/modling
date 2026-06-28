@@ -13,9 +13,9 @@ export const modules = [
     id: 'recurrence',
     title: '动态系统与递推关系',
     subtitle: '差分方程、长期行为与递推模型',
-    status: 'preview',
-    route: '#/courses?module=recurrence',
-    topics: ['recurrence:introduction', 'recurrence:systems'],
+    status: 'open',
+    route: '#/lesson?module=recurrence',
+    topics: ['recurrence:introduction', 'recurrence:first-order', 'recurrence:second-order', 'recurrence:matrix', 'recurrence:stability'],
     examWeight: 8,
     color: '#68708a'
   },

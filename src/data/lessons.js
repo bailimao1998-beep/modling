@@ -37,6 +37,48 @@ export const lessons = {
     nextLessonId: 'markov-foundations',
     checklist: ['什么是向量', '什么是矩阵', '矩阵的行和列', '矩阵加法', '矩阵乘法', '行乘列规则', '2×2 矩阵乘法练习', '单位矩阵', '矩阵乘方', '2×2 和 3×3 行列式基础']
   },
+  recurrence: {
+    id: 'recurrence-foundations',
+    moduleId: 'recurrence',
+    title: '动态系统与递推关系',
+    subtitle: '从一步更新规则走到状态向量、矩阵预测与长期行为',
+    topic: 'recurrence:matrix',
+    goals: ['识别离散动态系统与初始条件', '计算一阶和二阶递推关系', '把二阶递推写成状态向量与矩阵形式', '用特征值建立稳定、震荡与增长的直觉'],
+    plainExplanation: '动态系统就是“今天的状态决定明天的状态”。人口增长、天气变化、弹簧运动和账户余额都可以写成一步一步更新的规则。离散时间系统只在 k=0,1,2,… 这些时刻观察；知道更新规则和初始条件，就能从 x_k 推到 x_{k+1}，再继续预测未来。',
+    symbols: [
+      { symbol: 'x_k', meaning: '系统在离散时刻 k 的状态' },
+      { symbol: 'x_{k+1}=f(x_k)', meaning: '一阶递推：下一步由当前一步决定' },
+      { symbol: 'x_0,x_1', meaning: '二阶递推所需的两个初始条件' },
+      { symbol: 'y_k', meaning: '状态向量 [x_{k+1},x_k]^T' },
+      { symbol: 'A', meaning: '把状态 y_k 更新到 y_{k+1} 的矩阵' },
+      { symbol: 'λ', meaning: '特征值；帮助判断长期衰减、震荡或增长' }
+    ],
+    formulas: [
+      'x_{k+1}=f(x_k)',
+      'x_{k+1}=r x_k(1-x_k)',
+      'x_{k+2}=2x_{k+1}-2x_k',
+      'y_k=\\begin{bmatrix}x_{k+1}\\\\x_k\\end{bmatrix}',
+      'y_{k+1}=Ay_k,\\quad A=\\begin{bmatrix}2&-2\\\\1&0\\end{bmatrix}',
+      'y_k=A^k y_0'
+    ],
+    example: {
+      title: '完整例题：二阶递推的矩阵形式',
+      problem: 'x₀=0，x₁=1，且 x_{k+2}=2x_{k+1}-2x_k。求 x₂ 到 x₆，并写成矩阵系统。',
+      steps: [
+        'x₂=2x₁-2x₀=2。',
+        '继续代入得到 x₃=2，x₄=0，x₅=-4，x₆=-8。',
+        '令 y_k=[x_{k+1},x_k]^T，使两个必需的旧值放在同一个状态里。',
+        '第一行产生 2x_{k+1}-2x_k，第二行把 x_{k+1} 保留下来，所以 A=[[2,-2],[1,0]]。',
+        '因此 y_{k+1}=Ay_k，反复更新等价于 y_k=A^k y₀。'
+      ],
+      answer: 'x₂,…,x₆ = 2,2,0,-4,-8；A=[[2,-2],[1,0]]'
+    },
+    guidedPracticeIds: ['r-q4', 'r-q7', 'r-q10'],
+    independentPracticeIds: ['r-q3', 'r-q8', 'r-q9'],
+    summary: ['动态系统由状态、更新规则和初始条件组成。', '二阶递推必须保留连续两个值。', '状态向量把二阶递推变成一阶矩阵系统。', '矩阵乘方可以一次预测多步。', '特征值的模提供稳定、震荡与增长的第一层直觉。'],
+    nextLessonId: 'graph-foundations',
+    checklist: ['什么是动态系统', '离散时间系统', '递推关系', '初始条件', '从 x_k 到 x_{k+1}', '二阶递推关系', '递推的矩阵形式', '状态向量', '矩阵乘方预测未来', '特征值基础', '稳定、震荡与增长的直觉']
+  },
   graph: {
     id: 'graph-foundations',
     moduleId: 'graph',

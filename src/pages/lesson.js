@@ -4,6 +4,7 @@ import { formulaBlock } from '../components/formula.js';
 import { mutateState } from '../services/storage.js';
 import { updateTopicMastery } from '../services/progress.js';
 import { renderMatrixLessonDemo, bindMatrixLessonDemo } from '../modules/matrix/matrixLesson.js';
+import { renderRecurrenceLab, bindRecurrenceLab, destroyRecurrenceLab } from '../modules/recurrence/recurrenceLesson.js';
 import { renderMarkovSimulator, bindMarkovSimulator, destroyMarkovSimulator } from '../modules/markov/markovLesson.js';
 import { renderGraphLab, bindGraphLab, destroyGraphLab } from '../modules/graph/graphLesson.js';
 import { renderProbabilityLab, bindProbabilityLab, destroyProbabilityLab } from '../modules/probability/probabilityLesson.js';
@@ -25,6 +26,7 @@ export function renderLesson() {
   const lesson = getLessonByModule(moduleId) || getLessonByModule('matrix');
   const visual = {
     matrix: renderMatrixLessonDemo,
+    recurrence: renderRecurrenceLab,
     graph: renderGraphLab,
     probability: renderProbabilityLab,
     markov: renderMarkovSimulator
@@ -52,6 +54,7 @@ export function renderLesson() {
 export function bindLessonPage() {
   const moduleId = moduleFromRoute();
   if (moduleId === 'matrix') bindMatrixLessonDemo(document);
+  if (moduleId === 'recurrence') bindRecurrenceLab(document);
   if (moduleId === 'graph') bindGraphLab(document);
   if (moduleId === 'probability') bindProbabilityLab(document);
   if (moduleId === 'markov') bindMarkovSimulator(document);
@@ -66,6 +69,7 @@ export function bindLessonPage() {
 }
 
 export function cleanupLessonPage() {
+  destroyRecurrenceLab();
   destroyGraphLab();
   destroyProbabilityLab();
   destroyMarkovSimulator();
