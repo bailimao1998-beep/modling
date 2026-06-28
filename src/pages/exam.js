@@ -41,7 +41,7 @@ export function renderExam() {
   const questions = template.questionIds.map(getQuestionById);
   remainingSeconds = template.durationMinutes * 60;
   return `<section class="page exam-page"><div class="exam-toolbar"><div><a class="back-link" href="#/exam">${icon('arrow-left')} 退出本次考试</a><span class="eyebrow">${template.title}</span><h1>模拟考试</h1></div><div class="timer" data-timer><small>剩余时间</small><strong>${timeText(remainingSeconds)}</strong></div></div>
-    <div class="exam-layout"><aside class="exam-nav"><h2>题目导航</h2><div class="exam-legend"><span><i class="answered-dot"></i>已答</span><span><i class="marked-dot"></i>标记</span></div>${questions.map((question, index) => `<a href="#exam-${question.id}" data-exam-nav="${question.id}"><span>第 ${index + 1} 题</span><small data-nav-status>未答</small></a>`).join('')}<button class="primary-button" data-submit-exam type="button">${icon('send')} 提交试卷</button></aside>
+    <div class="exam-layout"><aside class="exam-nav"><h2>题目导航</h2><div class="exam-legend"><span><i class="answered-dot"></i>已答</span><span><i class="marked-dot"></i>标记</span></div>${questions.map((question, index) => `<button type="button" data-exam-nav="${question.id}" data-exam-scroll="${question.id}" aria-label="跳转到第 ${index + 1} 题"><span>第 ${index + 1} 题</span><small data-nav-status>未答</small></button>`).join('')}<button class="primary-button" data-submit-exam type="button">${icon('send')} 提交试卷</button></aside>
     <div class="exam-paper">${questions.map((question, index) => `<article class="question-card exam-question" id="exam-${question.id}" data-exam-question="${question.id}"><div class="exam-question-head"><div class="question-meta"><span>第 ${index + 1} 题</span><span>${question.marks} 分</span><span>${question.difficulty}</span></div><button class="icon-text-button" data-mark-question type="button">${icon('flag')} <span>标记</span></button></div><h3>${question.title}</h3><p>${question.question}</p>${answerControl(question)}</article>`).join('')}<div class="submit-panel"><h2>准备提交？</h2><p>提交后会显示总分、步骤得分、错误类型和推荐复习内容。</p><button class="primary-button" data-submit-exam type="button">${icon('send')} 提交试卷</button></div><div data-exam-result></div></div></div></section>`;
 }
 
@@ -54,6 +54,10 @@ export function bindExamPage() {
   const timer = document.querySelector('[data-timer] strong');
   let submitted = false;
   timerId = setInterval(() => { remainingSeconds -= 1; if (timer) timer.textContent = timeText(Math.max(0, remainingSeconds)); if (remainingSeconds <= 0) { clearInterval(timerId); submitExam(true); } }, 1000);
+
+  document.querySelectorAll('[data-exam-scroll]').forEach((button) => button.addEventListener('click', () => {
+    document.getElementById(`exam-${button.dataset.examScroll}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }));
 
   document.querySelectorAll('.exam-paper input').forEach((input) => input.addEventListener('input', () => {
     const card = input.closest('[data-exam-question]');

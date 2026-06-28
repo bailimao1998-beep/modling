@@ -36,8 +36,8 @@
 .progress-track { height: 7px; overflow: hidden; border-radius: 99px; background: #e5eae8; }
 .progress-fill { height: 100%; border-radius: inherit; background: var(--color-primary); }
 .review-list, .estimate-list, .due-list { display: grid; gap: var(--space-2); }
-.review-list a, .due-list a { display: grid; grid-template-columns: 28px 1fr 18px; align-items: center; gap: var(--space-2); padding: var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface); }
-.review-list a:hover, .due-list a:hover { border-color: #aebcba; background: var(--color-surface-soft); }
+.review-list a, .due-list button { display: grid; grid-template-columns: 28px 1fr 18px; align-items: center; gap: var(--space-2); width: 100%; padding: var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface); color: var(--color-text); font: inherit; text-align: left; cursor: pointer; }
+.review-list a:hover, .due-list button:hover { border-color: #aebcba; background: var(--color-surface-soft); }
 .review-list strong, .review-list small, .due-list strong, .due-list small { display: block; }
 .review-list small, .due-list small { color: var(--color-muted); }
 .estimate-list > div { display: grid; grid-template-columns: 96px 1fr 64px; align-items: center; gap: var(--space-2); font-size: 13px; }
@@ -223,9 +223,9 @@
 .timer strong { color: var(--color-primary); font-size: 22px; }
 .exam-nav { display: grid; gap: 6px; padding: var(--space-4); border: 1px solid var(--color-border); border-radius: var(--radius-lg); background: var(--color-surface); }
 .exam-nav h2 { font-size: 15px; }
-.exam-nav a { display: flex; justify-content: space-between; gap: var(--space-2); padding: 8px; border-radius: var(--radius-sm); color: var(--color-muted); font-size: 12px; }
-.exam-nav a:hover { background: var(--color-surface-soft); }
-.exam-nav a.is-marked { background: var(--color-warning-soft); color: var(--color-warning); }
+.exam-nav [data-exam-nav] { display: flex; justify-content: space-between; gap: var(--space-2); width: 100%; padding: 8px; border: 0; border-radius: var(--radius-sm); background: transparent; color: var(--color-muted); font: inherit; font-size: 12px; text-align: left; cursor: pointer; }
+.exam-nav [data-exam-nav]:hover { background: var(--color-surface-soft); }
+.exam-nav [data-exam-nav].is-marked { background: var(--color-warning-soft); color: var(--color-warning); }
 .exam-legend { display: flex; gap: var(--space-2); color: var(--color-muted); font-size: 10px; }
 .exam-legend span { display: flex; align-items: center; gap: 4px; }
 .answered-dot, .marked-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--color-success); }
