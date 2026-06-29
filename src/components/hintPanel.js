@@ -1,3 +1,5 @@
+import { renderRichMathText } from '../utils/richMathText.js';
+
 export function hintPanel(question) {
   return `
     <div class="hint-panel" data-hints>
@@ -16,7 +18,7 @@ export function bindHintPanel(root, hints = []) {
   const list = root.querySelector('[data-hint-list]');
   button?.addEventListener('click', () => {
     visibleCount = Math.min(hints.length, visibleCount + 1);
-    list.innerHTML = hints.slice(0, visibleCount).map((hint) => `<li>${hint}</li>`).join('');
+    list.innerHTML = hints.slice(0, visibleCount).map((hint) => `<li>${renderRichMathText(hint)}</li>`).join('');
     button.textContent = visibleCount >= hints.length ? '提示已全部显示' : `显示提示 ${visibleCount + 1}`;
     button.disabled = visibleCount >= hints.length;
   });

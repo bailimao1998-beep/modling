@@ -1,5 +1,6 @@
 import Chart from 'chart.js/auto';
 import { formulaBlock } from '../../components/formula.js';
+import { renderRichMathText } from '../../utils/richMathText.js';
 import { nextRecurrenceState, recurrenceMatrix, simulateLogistic } from './recurrenceMath.js';
 
 const defaultLogistic = { r: 2.8, x0: 0.2, steps: 20 };
@@ -103,14 +104,14 @@ export function bindRecurrenceLab(root = document) {
   }
 
   function processHtml() {
-    if (!lastProcess) return '准备计算 y₁=Ay₀。点击“下一步”得到 x₂。';
+    if (!lastProcess) return renderRichMathText('准备计算 y₁=Ay₀。点击“下一步”得到 x₂。');
     const { fromIndex, from, next } = lastProcess;
-    return `<strong>y<sub>${fromIndex + 1}</sub>=Ay<sub>${fromIndex}</sub></strong><span>[2×${numberText(from[0])}-2×${numberText(from[1])}, ${numberText(from[0])}]<sup>T</sup> = [${numberText(next[0])}, ${numberText(next[1])}]<sup>T</sup></span>`;
+    return `<strong>${renderRichMathText(`y_${fromIndex + 1}=Ay_${fromIndex}`)}</strong><span>${renderRichMathText(`[2×${numberText(from[0])}-2×${numberText(from[1])}, ${numberText(from[0])}]^T = [${numberText(next[0])}, ${numberText(next[1])}]^T`)}</span>`;
   }
 
   function renderRecurrence() {
     const newestIndex = sequence.length - 1;
-    container.querySelector('[data-recurrence-state]').innerHTML = `<span>当前状态</span><strong>y<sub>${stateIndex}</sub> = [x<sub>${newestIndex}</sub>, x<sub>${newestIndex - 1}</sub>]<sup>T</sup> = [${numberText(state[0])}, ${numberText(state[1])}]<sup>T</sup></strong>`;
+    container.querySelector('[data-recurrence-state]').innerHTML = `<span>当前状态</span><strong>${renderRichMathText(`y_${stateIndex} = [x_${newestIndex}, x_${newestIndex - 1}]^T = [${numberText(state[0])}, ${numberText(state[1])}]^T`)}</strong>`;
     container.querySelector('[data-recurrence-process]').innerHTML = processHtml();
     container.querySelector('[data-recurrence-table]').innerHTML = sequenceTable(sequence);
     const button = container.querySelector('[data-recurrence-next]');

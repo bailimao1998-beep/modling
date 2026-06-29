@@ -2,6 +2,7 @@ import cytoscape from 'cytoscape';
 import Chart from 'chart.js/auto';
 import { nearlyEqual, predictDistribution, simulateMarkov } from '../../utils/math.js';
 import { validateTransitionMatrix } from '../../utils/validation.js';
+import { renderRichMathText } from '../../utils/richMathText.js';
 
 const states = ['晴天', '阴天', '雨天'];
 const defaultMatrix = [
@@ -201,9 +202,9 @@ export function bindMarkovSimulator(root) {
   }
 
   function renderDistribution() {
-    container.querySelector('[data-current-dist]').innerHTML = `当前分布：ρ = [${currentDistribution
+    container.querySelector('[data-current-dist]').innerHTML = renderRichMathText(`当前分布：ρ = [${currentDistribution
       .map((value) => value.toFixed(3))
-      .join(', ')}]`;
+      .join(', ')}]`);
   }
 
   function validateDistribution(distribution) {

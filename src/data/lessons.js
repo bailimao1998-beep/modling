@@ -125,7 +125,7 @@ export const lessons = {
     formulas: ['P(a\\le X\\le b)=\\int_a^b p(x)\\,dx', 'E[X]=\\int xp(x)\\,dx', 'E[X^2]=\\int x^2p(x)\\,dx', '\\operatorname{Var}(X)=E[X^2]-E[X]^2'],
     example: {
       title: '完整例题：三角形密度',
-      problem: 'p(x)=x (0 &lt; x≤1)，p(x)=2-x (1 &lt; x≤2)。求 P(X≤0.5)、E[X] 与 Var(X)。',
+      problem: 'p(x)=x (0 < x≤1)，p(x)=2-x (1 < x≤2)。求 P(X≤0.5)、E[X] 与 Var(X)。',
       steps: ['P(X≤0.5)=∫₀^0.5 x dx=1/8。', 'E[X] 分两段计算 ∫₀¹x²dx + ∫₁²x(2-x)dx=1。', 'E[X²]=∫₀¹x³dx + ∫₁²x²(2-x)dx=7/6。', 'Var(X)=7/6-1²=1/6。'],
       answer: 'P(X≤0.5)=1/8，E[X]=1，Var(X)=1/6'
     },

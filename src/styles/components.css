@@ -92,6 +92,14 @@
 .matrix-demo-stage { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); max-width: 100%; overflow-x: auto; margin-bottom: var(--space-3); padding-bottom: 4px; }
 .matrix-demo-table { display: grid; flex: 0 0 auto; gap: var(--space-2); }
 .matrix-grid, .matrix-answer { display: grid; grid-template-columns: repeat(var(--cols), minmax(54px, 1fr)); gap: var(--space-2); width: max-content; max-width: 100%; }
+.matrix-answer { position: relative; grid-template-columns: repeat(var(--cols), 56px); margin: var(--space-3) 0; padding: 8px 14px; overflow-x: auto; }
+.matrix-answer::before, .matrix-answer::after { content: ''; position: absolute; top: 3px; bottom: 3px; width: 8px; border-top: 2px solid var(--color-primary); border-bottom: 2px solid var(--color-primary); pointer-events: none; }
+.matrix-answer::before { left: 2px; border-left: 2px solid var(--color-primary); }
+.matrix-answer::after { right: 2px; border-right: 2px solid var(--color-primary); }
+.matrix-answer input { width: 56px; min-width: 0; min-height: 46px; padding: 8px 5px; border-radius: var(--radius-sm); background: #fff; text-align: center; font-variant-numeric: tabular-nums; }
+.rich-math { display: inline-block; max-width: 100%; margin: 0 2px; vertical-align: middle; }
+.rich-math .katex { font-size: 1.04em; }
+.question-text .rich-math .katex, .answer-callout .rich-math .katex { font-size: 1.08em; }
 .matrix-grid span { display: grid; place-items: center; min-width: 54px; min-height: 48px; border: 1px solid var(--color-border); border-radius: var(--radius-md); background: #fff; }
 .matrix-grid .is-highlighted { border-color: #c18a34; background: var(--color-warning-soft); }
 .matrix-grid .is-current { border-color: var(--color-primary); background: var(--color-primary-soft); color: var(--color-primary-strong); font-weight: 800; }

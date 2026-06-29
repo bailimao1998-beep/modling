@@ -6,6 +6,7 @@ import { getTopicTitle } from '../data/topics.js';
 import { hintPanel, bindHintPanel } from './hintPanel.js';
 import { stepAnswer, readStepAnswers } from './stepAnswer.js';
 import { icon, refreshIcons } from './icon.js';
+import { renderRichMathText } from '../utils/richMathText.js';
 
 const difficultyLabels = { easy: '基础', medium: '进阶', exam: '考试' };
 
@@ -44,13 +45,13 @@ function readAnswer(root, question) {
 function resultHtml(result, question) {
   const stepDetails = result.stepResults?.length ? `<div class="step-feedback">${result.stepResults.map((step) =>
     step.location
-      ? `<p class="wrong"><strong>${step.location}</strong>：当前填写 ${step.actual || '空'}，请重新做这一格的行乘列。</p>`
-      : `<p class="${step.correct ? 'correct' : 'wrong'}"><strong>${step.prompt}</strong>：${step.feedback}</p>`
+      ? `<p class="wrong"><strong>${renderRichMathText(step.location)}</strong>：当前填写 ${renderRichMathText(step.actual || '空')}，请重新做这一格的行乘列。</p>`
+      : `<p class="${step.correct ? 'correct' : 'wrong'}"><strong>${renderRichMathText(step.prompt)}</strong>：${renderRichMathText(step.feedback)}</p>`
   ).join('')}</div>` : '';
   return `<div class="result-box ${result.correct ? 'is-correct' : 'is-wrong'}" aria-live="polite">
     <div class="result-heading">${icon(result.correct ? 'check-circle-2' : 'circle-alert')}<strong>${result.correct ? '完成' : '继续修正'} · ${result.score}/${result.maxScore} 分</strong></div>
-    <p>${result.feedback}</p>${stepDetails}
-    <details><summary>完成后查看思路总结</summary><p>${question.explanation}</p></details>
+    <p>${renderRichMathText(result.feedback)}</p>${stepDetails}
+    <details><summary>完成后查看思路总结</summary><p>${renderRichMathText(question.explanation)}</p></details>
   </div>`;
 }
 
@@ -59,7 +60,7 @@ export function questionCard(question, options = {}) {
   const recommendedMinutes = question.recommendedMinutes || Math.max(2, question.marks * 2);
   return `<article class="question-card" data-question-id="${question.id}">
     <div class="question-meta"><span>${moduleTitle}</span><span>${getTopicTitle(question.topic)}</span><span>${difficultyLabels[question.difficulty]}</span><span>${question.marks} 分</span><span>${icon('clock-3')} ${recommendedMinutes} 分钟</span>${options.wasWrong ? '<span class="danger-tag">曾经做错</span>' : ''}</div>
-    <h3>${question.title}</h3><p class="question-text">${question.question}</p>
+    <h3>${question.title}</h3><p class="question-text">${renderRichMathText(question.question)}</p>
     ${answerControl(question)}
     ${question.type === 'stepped' ? `<div class="live-score">当前步骤得分 <strong data-live-score>0/${question.marks}</strong></div>` : ''}
     ${hintPanel(question)}
