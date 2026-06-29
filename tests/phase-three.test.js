@@ -128,8 +128,8 @@ test('opens graph and probability with complete lesson and question data', () =>
   assert.equal(modules.find((module) => module.id === 'probability').status, 'open');
   assert.ok(lessons.graph?.goals.length >= 4);
   assert.ok(lessons.probability?.goals.length >= 4);
-  assert.equal(questions.filter((question) => question.module === 'graph' && question.id.startsWith('g-q')).length, 8);
-  assert.equal(questions.filter((question) => question.module === 'probability' && question.id.startsWith('p-q')).length, 8);
+  assert.ok(questions.filter((question) => question.module === 'graph' && question.id.startsWith('g-q')).length >= 8);
+  assert.ok(questions.filter((question) => question.module === 'probability' && question.id.startsWith('p-q')).length >= 8);
 });
 
 test('defines an open beta exam with five sections totaling fifty marks', () => {

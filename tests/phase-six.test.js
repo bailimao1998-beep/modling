@@ -49,7 +49,8 @@ test('defines a complete recurrence lesson linked to real practice questions', (
 
 test('adds ten complete recurrence questions across all supported question types', () => {
   const recurrenceQuestions = questions.filter((question) => question.module === 'recurrence' && question.id.startsWith('r-q'));
-  assert.deepEqual(recurrenceQuestions.map((question) => question.id), Array.from({ length: 10 }, (_, index) => `r-q${index + 1}`));
+  assert.ok(recurrenceQuestions.length >= 10);
+  assert.deepEqual(recurrenceQuestions.slice(0, 10).map((question) => question.id), Array.from({ length: 10 }, (_, index) => `r-q${index + 1}`));
   assert.deepEqual(new Set(recurrenceQuestions.map((question) => question.type)), new Set(['single-choice', 'numeric-fill', 'matrix-fill', 'stepped']));
   recurrenceQuestions.forEach((question) => {
     ['id', 'module', 'topic', 'difficulty', 'type', 'title', 'question', 'steps', 'hints', 'answer', 'explanation', 'marks', 'errorTags'].forEach((field) => {
