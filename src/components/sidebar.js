@@ -29,7 +29,7 @@ export function sidebar() {
 }
 
 export function mobileBottomNav() {
-  const primary = navItems.filter((item) => ['/dashboard', '/courses', '/practice', '/mistakes', '/reports'].includes(item.path));
+  const primary = navItems.filter((item) => ['/dashboard', '/roadmap', '/courses', '/practice', '/mistakes'].includes(item.path));
   return `<nav class="mobile-bottom-nav" aria-label="手机导航">${primary.map((item) => `
     <a data-nav-path="${item.path}" href="${item.href}">${icon(item.icon)}<span>${item.label}</span></a>`).join('')}</nav>`;
 }

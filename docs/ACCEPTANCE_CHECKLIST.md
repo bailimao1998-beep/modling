@@ -44,10 +44,11 @@ npm run preview
 - [ ] `#/labs` 同时加载五个实验室，控制台无 Chart.js 或 Cytoscape.js 错误。
 - [ ] `#/practice` 能按模块、难度、错误类型和练习记录筛选。
 - [ ] `#/mistakes` 显示正确模块名、复习日期、重做与理解操作。
-- [ ] `#/exam` 显示三种考试模式。
+- [ ] `#/exam` 显示快速测、模块测、结构模拟卷和真题训练四种开放模式，以及完整模拟预告。
 - [ ] `#/exam?mode=quick` 可提交并显示 3 道题的逐题得分。
 - [ ] `#/exam?mode=module` 可提交并显示 5 道题的逐题得分。
 - [ ] `#/exam?mode=full-beta` 可提交并显示 50 分结构卷结果。
+- [ ] `#/exam?mode=past-paper-2024` 显示五道独立真题变式，总分为 50 分且可以提交。
 - [ ] `#/proofs` 显示图拉普拉斯证明目标、乱序步骤卡片和五个关键空。
 - [ ] `#/reports` 显示掌握度、近 7 天练习和错误分布图表。
 - [ ] `#/settings` 显示作答、错题、考试次数、storage key 和最近更新时间。
@@ -157,8 +158,17 @@ npm run preview
 
 - Vite 生产构建 base 为 `/modling/`，本地开发 base 保持 `/`。
 - Hash router 不依赖服务器端路由回退，适合静态托管。
-- 当前仓库尚未启用 GitHub Pages，因此没有启用自动部署 workflow，避免 `main` 推送后产生预期失败。
-- 启用方法：在 GitHub 仓库 `Settings > Pages` 中将 Source 设为 `GitHub Actions`，再加入官方 Pages artifact/deploy workflow。
+- `.github/workflows/pages.yml` 在 `main` push 后使用 Node 22 执行安装、测试和构建。
+- workflow 使用 `upload-pages-artifact@v3` 上传 `dist`，并使用 `deploy-pages@v4` 部署。
+- 启用方法：在 GitHub 仓库 `Settings > Pages` 中将 Source 设为 `GitHub Actions`；未启用前部署 job 可能失败。
+
+## 0.8.0 真题模式验收
+
+- [ ] `package.json` 与 `package-lock.json` 根项目版本均为 `0.8.0`。
+- [ ] `past-paper-2024` 状态为 open，时长 120 分钟，题目 ID 为 `past-q1` 至 `past-q5` 对应的五道独立题。
+- [ ] 五道真题变式分值依次为 10、10、10、8、12，总分 50。
+- [ ] 真题模式页面明确显示“2024-2025 真题训练 beta”，证明题采用结构化半自动判分。
+- [ ] 手机底部导航依次显示首页、考前路线、课程、练习、错题本，不再显示学习报告。
 
 ## 已知限制
 

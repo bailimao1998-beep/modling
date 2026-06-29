@@ -836,6 +836,115 @@ export const questions = [
     explanation: '本题对应马尔可夫链部分，共 12 分。',
     marks: 12,
     errorTags: ['转移矩阵方向错误', '概率和不等于 1']
+  },
+  {
+    id: 'past-q1-recurrence',
+    module: 'recurrence',
+    topic: 'recurrence:matrix',
+    difficulty: 'exam',
+    type: 'stepped',
+    title: '真题 Q1：递推关系与状态矩阵',
+    question: '给定 x₀=1，x₁=0，x_{k+2}=2x_{k+1}-2x_k。计算 x₂ 到 x₆，并写出状态矩阵 A。',
+    steps: [
+      { stepId: 's1', prompt: 'x₂ 是多少？', expectedAnswer: -2, marks: 1, validationType: 'numeric', feedbackCorrect: '正确。', feedbackWrong: '计算 2x₁-2x₀。' },
+      { stepId: 's2', prompt: 'x₃ 是多少？', expectedAnswer: -4, marks: 1, validationType: 'numeric', feedbackCorrect: '正确。', feedbackWrong: '计算 2x₂-2x₁。' },
+      { stepId: 's3', prompt: 'x₄ 是多少？', expectedAnswer: -4, marks: 1, validationType: 'numeric', feedbackCorrect: '正确。', feedbackWrong: '计算 2x₃-2x₂。' },
+      { stepId: 's4', prompt: 'x₅ 是多少？', expectedAnswer: 0, marks: 1, validationType: 'numeric', feedbackCorrect: '正确。', feedbackWrong: '计算 2x₄-2x₃。' },
+      { stepId: 's5', prompt: 'x₆ 是多少？', expectedAnswer: 8, marks: 1, validationType: 'numeric', feedbackCorrect: '正确。', feedbackWrong: '计算 2x₅-2x₄。' },
+      { stepId: 's6', prompt: 'A 的第 1 行第 1 列是多少？', expectedAnswer: 2, marks: 1, validationType: 'numeric', feedbackCorrect: '正确。', feedbackWrong: '读取 x_{k+1} 的系数。' },
+      { stepId: 's7', prompt: 'A 的第 1 行第 2 列是多少？', expectedAnswer: -2, marks: 1, validationType: 'numeric', feedbackCorrect: '正确。', feedbackWrong: '读取 x_k 的系数。' },
+      { stepId: 's8', prompt: 'A 的第 2 行第 1 列是多少？', expectedAnswer: 1, marks: 1, validationType: 'numeric', feedbackCorrect: '正确。', feedbackWrong: '第二行保留较新的状态。' },
+      { stepId: 's9', prompt: 'A 的第 2 行第 2 列是多少？', expectedAnswer: 0, marks: 1, validationType: 'numeric', feedbackCorrect: '正确。', feedbackWrong: '第二行不使用旧状态。' },
+      { stepId: 's10', prompt: '状态向量顺序是什么？填写 x_{k+1},x_k。', expectedAnswer: 'x_{k+1},x_k', marks: 1, validationType: 'text', feedbackCorrect: '正确。', feedbackWrong: '较新的状态放在第一项。' }
+    ],
+    hints: ['先逐项算数列，再写矩阵。', '令 y_k=[x_{k+1},x_k]^T。', 'A=[[2,-2],[1,0]]。'],
+    answer: { s1: -2, s2: -4, s3: -4, s4: 0, s5: 8, s6: 2, s7: -2, s8: 1, s9: 0, s10: 'x_{k+1},x_k' },
+    explanation: '递推值改变，但状态矩阵仍由递推系数决定。',
+    marks: 10,
+    errorTags: ['公式选择错误', '矩阵乘法错误', '计算错误']
+  },
+  {
+    id: 'past-q2-graph',
+    module: 'graph',
+    topic: 'graph:spanning-tree',
+    difficulty: 'exam',
+    type: 'stepped',
+    title: '真题 Q2：K4 图论计算',
+    question: '对 K4 完成 degree、长度 2 的 walks、Laplacian 和生成树数量计算。',
+    steps: [
+      { stepId: 's1', prompt: '每个顶点 degree 是多少？', expectedAnswer: 3, marks: 2, validationType: 'numeric', feedbackCorrect: '正确。', feedbackWrong: 'K4 的每个顶点连接其余三个顶点。' },
+      { stepId: 's2', prompt: '(A²)_13 是多少？', expectedAnswer: 2, marks: 3, validationType: 'numeric', feedbackCorrect: '正确。', feedbackWrong: '长度 2 时可经过另外两个顶点。' },
+      { stepId: 's3', prompt: 'L=D-A 的对角元素是多少？', expectedAnswer: 3, marks: 2, validationType: 'numeric', feedbackCorrect: '正确。', feedbackWrong: 'L 的对角元素等于 degree。' },
+      { stepId: 's4', prompt: 'K4 的生成树数量是多少？', expectedAnswer: 16, marks: 3, validationType: 'numeric', feedbackCorrect: '正确。', feedbackWrong: '使用任一 Laplacian cofactor。' }
+    ],
+    hints: ['A^k 的元素计算长度 k 的 walks。', 'L=D-A。', '使用 Matrix-tree theorem。'],
+    answer: { s1: 3, s2: 2, s3: 3, s4: 16 },
+    explanation: '本题把 adjacency powers、Laplacian 与生成树放在同一道 10 分结构题中。',
+    marks: 10,
+    errorTags: ['矩阵乘法错误', '行列式错误', '计算错误']
+  },
+  {
+    id: 'past-q3-laplacian-proof',
+    module: 'graph',
+    topic: 'graph:laplacian',
+    difficulty: 'exam',
+    type: 'stepped',
+    title: '真题 Q3：Normalized Laplacian 半正定证明',
+    question: '用关键结构填空完成 symmetric normalized graph Laplacian 为 positive semidefinite 的证明。',
+    steps: [
+      { stepId: 's1', prompt: '加权平方和前的系数是多少？填写 1/2。', expectedAnswer: '1/2', marks: 2, validationType: 'text', feedbackCorrect: '正确。', feedbackWrong: '无向边的两个方向合并后出现 1/2。' },
+      { stepId: 's2', prompt: '平方和中的边权符号是什么？填写 a_ij。', expectedAnswer: 'a_ij', marks: 2, validationType: 'text', feedbackCorrect: '正确。', feedbackWrong: '使用 adjacency weight a_ij。' },
+      { stepId: 's3', prompt: '归一化分量是什么？填写 f_i/sqrt(d_i)。', expectedAnswer: 'f_i/sqrt(d_i)', marks: 2, validationType: 'text', feedbackCorrect: '正确。', feedbackWrong: 'D^{-1/2} 对应除以 sqrt(d_i)。' },
+      { stepId: 's4', prompt: 'a_ij≥0 且括号平方，二次型是否非负？填写 yes。', expectedAnswer: 'yes', marks: 2, validationType: 'text', feedbackCorrect: '正确。', feedbackWrong: '每一项都是非负权重乘平方。' },
+      { stepId: 's5', prompt: '因此 L_sym 是否 positive semidefinite？填写 yes。', expectedAnswer: 'yes', marks: 2, validationType: 'text', feedbackCorrect: '正确。', feedbackWrong: '对任意 f 二次型非负就是 PSD 的定义。' }
+    ],
+    hints: ['先考虑 f^T L_sym f。', '把它写成加权平方和。', '明确写出“对任意 f 非负”。'],
+    answer: { s1: '1/2', s2: 'a_ij', s3: 'f_i/sqrt(d_i)', s4: 'yes', s5: 'yes' },
+    explanation: '本题训练证明骨架，不替代正式考试中的完整文字论证。',
+    marks: 10,
+    errorTags: ['概念不理解', '公式选择错误']
+  },
+  {
+    id: 'past-q4-probability',
+    module: 'probability',
+    topic: 'probability:variance',
+    difficulty: 'exam',
+    type: 'stepped',
+    title: '真题 Q4：分段密度与矩',
+    question: '对三角形密度 p(x)=x（0<x≤1）、p(x)=2-x（1<x≤2）完成概率、期望和方差计算。',
+    steps: [
+      { stepId: 's1', prompt: 'P(0.5≤X≤1.5) 是多少？', expectedAnswer: 0.75, marks: 2, validationType: 'numeric', feedbackCorrect: '正确。', feedbackWrong: '在 x=1 处分成两个积分。' },
+      { stepId: 's2', prompt: 'E[X] 是多少？', expectedAnswer: 1, marks: 2, validationType: 'numeric', feedbackCorrect: '正确。', feedbackWrong: '密度关于 x=1 对称。' },
+      { stepId: 's3', prompt: 'E[X²] 是多少？填写小数。', expectedAnswer: 1.166667, marks: 2, validationType: 'numeric', feedbackCorrect: '正确。', feedbackWrong: '结果为 7/6。' },
+      { stepId: 's4', prompt: 'Var(X) 是多少？填写小数。', expectedAnswer: 0.166667, marks: 2, validationType: 'numeric', feedbackCorrect: '正确。', feedbackWrong: '使用 E[X²]-E[X]²。' }
+    ],
+    hints: ['跨过 x=1 时拆分积分。', '期望是带权平均位置。', 'Var(X)=E[X²]-E[X]²。'],
+    answer: { s1: 0.75, s2: 1, s3: 1.166667, s4: 0.166667 },
+    explanation: '本题比结构卷更强调跨分段区间概率。',
+    marks: 8,
+    errorTags: ['公式选择错误', '计算错误']
+  },
+  {
+    id: 'past-q5-markov',
+    module: 'markov',
+    topic: 'markov:prediction',
+    difficulty: 'exam',
+    type: 'stepped',
+    title: '真题 Q5：两步天气预测',
+    question: '默认天气转移矩阵下，取 ρ₀=[0,1,0]。计算 ρ₁ 和 ρ₂。',
+    steps: [
+      { stepId: 's1', prompt: 'ρ₁ 的晴天概率是多少？', expectedAnswer: 0.25, marks: 2, validationType: 'numeric', feedbackCorrect: '正确。', feedbackWrong: '初始状态为阴天，读取 P 第二行。' },
+      { stepId: 's2', prompt: 'ρ₁ 的阴天概率是多少？', expectedAnswer: 0, marks: 2, validationType: 'numeric', feedbackCorrect: '正确。', feedbackWrong: '读取 P 第二行。' },
+      { stepId: 's3', prompt: 'ρ₁ 的雨天概率是多少？', expectedAnswer: 0.75, marks: 2, validationType: 'numeric', feedbackCorrect: '正确。', feedbackWrong: '读取 P 第二行。' },
+      { stepId: 's4', prompt: 'ρ₂ 的晴天概率是多少？', expectedAnswer: 0.85, marks: 2, validationType: 'numeric', feedbackCorrect: '正确。', feedbackWrong: '0.25×0.4+0.75×1。' },
+      { stepId: 's5', prompt: 'ρ₂ 的阴天概率是多少？', expectedAnswer: 0.15, marks: 2, validationType: 'numeric', feedbackCorrect: '正确。', feedbackWrong: '0.25×0.6。' },
+      { stepId: 's6', prompt: 'ρ₂ 的雨天概率是多少？', expectedAnswer: 0, marks: 2, validationType: 'numeric', feedbackCorrect: '正确。', feedbackWrong: '检查第二步各来源。' }
+    ],
+    hints: ['使用 row-vector convention。', 'ρ₁ 是转移矩阵第二行。', '每一步都检查三个概率和为 1。'],
+    answer: { s1: 0.25, s2: 0, s3: 0.75, s4: 0.85, s5: 0.15, s6: 0 },
+    explanation: '初始阴天时先读取第二行，再用 ρ₁P 得到第二天分布。',
+    marks: 12,
+    errorTags: ['转移矩阵方向错误', '概率和不等于 1', '计算错误']
   }
 ];
 

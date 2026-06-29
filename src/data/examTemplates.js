@@ -24,6 +24,14 @@ export const examTemplates = [
     status: 'open'
   },
   {
+    id: 'past-paper-2024',
+    title: '2024-2025 真题训练 beta',
+    durationMinutes: 120,
+    description: '基于去年卷结构整理的真题训练，证明题仍采用结构化半自动判分。',
+    questionIds: ['past-q1-recurrence', 'past-q2-graph', 'past-q3-laplacian-proof', 'past-q4-probability', 'past-q5-markov'],
+    status: 'open'
+  },
+  {
     id: 'full',
     title: '2 小时完整模拟',
     durationMinutes: 120,
