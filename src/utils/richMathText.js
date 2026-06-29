@@ -65,6 +65,9 @@ function vectorTex(value, transpose) {
 }
 
 function expressionTex(value) {
+  if (/^f\^T\s+L_sym\s+f$/u.test(value)) return 'f^{\\mathsf T} L_{\\mathrm{sym}} f';
+  if (/^L_sym$/u.test(value)) return 'L_{\\mathrm{sym}}';
+  if (/^f\^T$/u.test(value)) return 'f^{\\mathsf T}';
   if (/^Var\(X\)$/u.test(value)) return '\\operatorname{Var}(X)';
   if (/^E\[X(?:²|\^2)?\]$/u.test(value)) {
     return value.includes('²') || value.includes('^2') ? '\\mathbb{E}[X^2]' : '\\mathbb{E}[X]';
@@ -99,6 +102,9 @@ export function renderRichMathText(text) {
     /Var\(X\)/g,
     /E\[X(?:²|\^2)?\]/g,
     /P\([^()\n]{1,48}\)/g,
+    /\bf\^T\s+L_sym\s+f\b/g,
+    /\bL_sym\b/g,
+    /\bf\^T\b/g,
     /\bL\s*=\s*D\s*-\s*A\b/g,
     /\b[ADLP][\^⁰¹²³⁴⁵⁶⁷⁸⁹]+[0-9]*/g,
     /[xy]_(?:\{[^{}\n]+\}|[A-Za-z0-9]+)/g,
