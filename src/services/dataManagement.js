@@ -25,6 +25,7 @@ export function validateStudyBackup(payload) {
   if (Object.hasOwn(data, 'mistakes') && !Array.isArray(data.mistakes)) errors.push('mistakes 必须是数组。');
   if (Object.hasOwn(data, 'reviewSchedule') && !isRecord(data.reviewSchedule)) errors.push('reviewSchedule 必须是对象。');
   if (Object.hasOwn(data, 'examHistory') && !Array.isArray(data.examHistory)) errors.push('examHistory 必须是数组。');
+  if (Object.hasOwn(data, 'proofHistory') && !Array.isArray(data.proofHistory)) errors.push('proofHistory 必须是数组。');
   if (Object.hasOwn(data, 'understoodMistakes') && !Array.isArray(data.understoodMistakes)) errors.push('understoodMistakes 必须是数组。');
 
   return { valid: errors.length === 0, errors, data: errors.length ? null : structuredClone(data) };
@@ -42,6 +43,7 @@ export function mergeImportedStudyData(payload, defaultState) {
     mistakes: imported.mistakes || structuredClone(defaultState.mistakes),
     reviewSchedule: imported.reviewSchedule || structuredClone(defaultState.reviewSchedule),
     examHistory: imported.examHistory || structuredClone(defaultState.examHistory),
+    proofHistory: imported.proofHistory || structuredClone(defaultState.proofHistory),
     understoodMistakes: imported.understoodMistakes || structuredClone(defaultState.understoodMistakes),
     lastSession: { action: '已导入学习数据', at: new Date().toISOString() }
   };

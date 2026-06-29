@@ -169,6 +169,8 @@
 .filter-count strong { font-size: 23px; }
 .filter-count span { color: var(--color-muted); font-size: 11px; }
 .question-card { padding: var(--space-5); scroll-margin-top: 92px; }
+.question-list, .exam-paper { grid-template-columns: minmax(0, 1fr); min-width: 0; }
+.question-card, .exam-question { min-width: 0; }
 .question-card.is-targeted { border-color: var(--color-primary); box-shadow: 0 0 0 3px var(--color-primary-soft); }
 .question-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: var(--space-3); }
 .question-meta > span { display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 999px; background: #eef2f1; color: #526063; font-size: 11px; }
@@ -305,10 +307,30 @@
 .proof-template p { margin-bottom: var(--space-2); color: var(--color-text); }
 .exam-writing-tip { margin-top: var(--space-4); padding: var(--space-4); border-left: 3px solid var(--color-warning); background: var(--color-warning-soft); }
 .exam-writing-tip p { margin: 5px 0 0; color: #6d5736; }
+.proof-template-disclosure { margin-top: var(--space-4); border: 1px solid var(--color-border); border-radius: var(--radius-lg); background: var(--color-surface); box-shadow: var(--shadow-sm); }
+.proof-template-disclosure summary { padding: var(--space-4) var(--space-5); cursor: pointer; color: var(--color-primary); font-weight: 750; }
+.proof-template-disclosure .proof-template { margin: 0; border-top: 1px solid var(--color-border); }
+.proof-template ol { padding-left: 22px; }
+.proof-template li { margin-bottom: var(--space-2); color: var(--color-text); line-height: 1.6; }
+.copy-feedback { margin-left: var(--space-3); color: var(--color-success); font-size: 12px; }
 
 .report-summary { margin-bottom: var(--space-4); }
 .recommendation-panel { display: grid; grid-template-columns: 52px minmax(0, 1fr) auto; align-items: center; gap: var(--space-5); margin-top: var(--space-4); padding: var(--space-5); border-left: 4px solid #526b55; }
 .recommendation-panel h2, .recommendation-panel p { margin-bottom: var(--space-1); }
+
+.dashboard-task-panel, .roadmap-tasks { margin: var(--space-4) 0 var(--space-7); padding: var(--space-5); border: 1px solid var(--color-border); border-radius: var(--radius-lg); background: var(--color-surface); box-shadow: var(--shadow-sm); }
+.study-task-list { display: grid; gap: var(--space-2); }
+.study-task-item { display: grid; grid-template-columns: 38px minmax(0, 1fr) auto; align-items: center; gap: var(--space-3); padding: var(--space-3); border-top: 1px solid var(--color-border); }
+.study-task-item:first-child { border-top: 0; }
+.study-task-item p { margin: 3px 0 0; font-size: 12px; }
+.study-task-icon { display: grid; place-items: center; width: 36px; height: 36px; border-radius: var(--radius-md); background: var(--color-primary-soft); color: var(--color-primary); }
+.roadmap-stages { position: relative; display: grid; gap: var(--space-4); }
+.roadmap-stages::before { position: absolute; top: 30px; bottom: 30px; left: 31px; width: 1px; background: var(--color-border-strong); content: ''; }
+.roadmap-stage { position: relative; display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: var(--space-4); }
+.roadmap-stage-number { z-index: 1; display: grid; place-items: center; width: 64px; height: 64px; border: 1px solid var(--color-border-strong); border-radius: 50%; background: var(--color-surface); color: var(--color-primary); font-weight: 800; }
+.roadmap-stage-content { padding: var(--space-5); border: 1px solid var(--color-border); border-left: 4px solid #83979b; border-radius: var(--radius-lg); background: var(--color-surface); box-shadow: var(--shadow-sm); }
+.roadmap-stage-content ul { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+.roadmap-stage-content li { display: inline-flex; align-items: center; gap: 5px; padding: 5px 8px; border-radius: var(--radius-sm); background: var(--color-surface-soft); color: #526063; font-size: 12px; }
 
 @media (max-width: 1040px) {
   .course-overview { grid-template-columns: 1fr 280px; }
@@ -346,4 +368,9 @@
   .proof-target { grid-template-columns: 1fr; }
   .proof-step-card { grid-template-columns: 30px minmax(0, 1fr); }
   .proof-move-controls { grid-column: 1 / -1; justify-content: flex-end; }
+  .study-task-item { grid-template-columns: 36px minmax(0, 1fr); }
+  .study-task-item .secondary-button { grid-column: 1 / -1; width: 100%; }
+  .roadmap-stage { grid-template-columns: 48px minmax(0, 1fr); gap: var(--space-2); }
+  .roadmap-stage-number { width: 48px; height: 48px; }
+  .roadmap-stages::before { left: 23px; }
 }

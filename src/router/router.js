@@ -8,6 +8,7 @@ import { renderExam, bindExamPage, cleanupExamPage } from '../pages/exam.js';
 import { renderReports, bindReportsPage, cleanupReportsPage } from '../pages/reports.js';
 import { renderProofs, bindProofsPage } from '../pages/proofs.js';
 import { renderSettings, bindSettingsPage } from '../pages/settings.js';
+import { renderRoadmap } from '../pages/roadmap.js';
 import { syncAppHeader } from '../components/appHeader.js';
 import { syncNavigation } from '../components/sidebar.js';
 import { refreshIcons } from '../components/icon.js';
@@ -21,6 +22,7 @@ const routes = {
   '/mistakes': { render: renderMistakes, bind: bindMistakesPage, cleanup: cleanupMistakesPage },
   '/exam': { render: renderExam, bind: bindExamPage, cleanup: cleanupExamPage },
   '/proofs': { render: renderProofs, bind: bindProofsPage },
+  '/roadmap': { render: renderRoadmap, bind: () => {} },
   '/reports': { render: renderReports, bind: bindReportsPage, cleanup: cleanupReportsPage },
   '/settings': { render: renderSettings, bind: bindSettingsPage }
 };

@@ -26,5 +26,12 @@ export const laplacianPsdProof = {
     '由于 a_ij >= 0 且平方项非负，所以 f^T L_sym f >= 0。',
     '因此 L_sym 是 positive semidefinite。'
   ],
+  examVersion: [
+    'Let L_sym = I - D^{-1/2}AD^{-1/2} and take any vector f.',
+    'Consider the quadratic form f^T L_sym f.',
+    'Then f^T L_sym f = 1/2 sum_{i,j} a_ij (f_i/sqrt(d_i) - f_j/sqrt(d_j))^2.',
+    'Every term is non-negative because a_ij >= 0 and the bracket is squared.',
+    'Hence f^T L_sym f >= 0 for every f, so L_sym is positive semidefinite.'
+  ],
   examTip: '考试中先写“取任意 f 并考虑二次型”，再化成加权平方和；最后明确写出“对任意 f 非负，因此矩阵半正定”。'
 };

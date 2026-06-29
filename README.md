@@ -2,7 +2,7 @@
 
 一个面向 Heriot-Watt University F11MT Modelling and Tools 课程的本地互动复习系统。项目帮助数学基础较弱的学生通过知识地图、可视化实验、分步骤练习、错题记录和间隔复习建立考试所需的稳定解题步骤。
 
-第七阶段加入本地学习数据管理、50 分 beta 卷分项报告和图拉普拉斯证明训练器。矩阵、递推、图论、概率论、马尔可夫链五大模块均已开放。
+第八阶段加入考前复习路线、自动生成的今日任务，并完成全路由、手机端和核心按钮的真实浏览器验收。矩阵、递推、图论、概率论、马尔可夫链五大模块均已开放。
 
 ## 本地使用
 
@@ -31,6 +31,7 @@ npm test
 ## 页面
 
 - **学习首页**：今日建议、总体进度、五大模块、到期复习和考试得分参考。
+- **考前路线**：按保底拿分、递推步骤分、证明模板和整卷训练组织四阶段冲刺。
 - **课程**：模块目录、知识地图，以及五大模块的十段式互动课程。
 - **互动实验**：矩阵乘法、动态系统、K4 图论、三角形概率密度和马尔可夫天气五个可操作实验室。
 - **练习**：按模块、难度、错误类型和练习记录筛选，支持单选、数值、矩阵和分步骤题。
@@ -55,11 +56,11 @@ npm test
 ```text
 src/
   components/     通用界面、公式、题目卡片和知识地图
-  data/           modules、topics、lessons、questions、examTemplates、proofs、errorTypes
+  data/           modules、topics、lessons、questions、examTemplates、proofs、roadmap、errorTypes
   modules/        矩阵、递推、图论、概率论与马尔可夫互动模块
-  pages/          Dashboard、Courses、Lesson、Labs、Practice、Mistakes、Exam、Proofs、Reports、Settings
+  pages/          Dashboard、Roadmap、Courses、Lesson、Labs、Practice、Mistakes、Exam、Proofs、Reports、Settings
   router/         Hash 路由
-  services/       存储、判分、考试报告、数据管理、证明判定、分析和间隔复习
+  services/       存储、判分、考试报告、数据管理、今日计划、证明判定、分析和间隔复习
   styles/         设计令牌、应用布局和组件样式
   utils/          数学、校验和格式化工具
 tests/            核心逻辑、学习分析、数学与阶段回归测试
@@ -125,6 +126,17 @@ docs/             阶段设计记录与发布验收清单
 - beta 卷 breakdown 会随考试历史保存在本地，便于后续报告继续使用。
 - 新增图拉普拉斯证明训练器，通过七步排序、五个关键空和完整模板训练证明结构。
 - 新增 `phase-seven.test.js`，覆盖备份、导入校验、考试汇总、错误统计、证明顺序和路由接入。
+
+## 第八阶段完成内容
+
+- 新增“考前路线”页面，按四阶段给出课程、实验室、练习、证明训练和整卷入口。
+- 新增 `studyPlan` 服务：优先安排 1 至 3 道到期错题，再补最低掌握模块、考试检查和首次证明训练。
+- Dashboard 与 Roadmap 共用同一份今日任务，证明提交后会记录 `proofHistory` 并更新后续建议。
+- 证明训练器新增恢复初始乱序、折叠模板、考试版五行、复制按钮和 48 小时重做提示。
+- 数据导入或重置后立即刷新顶部学习指标；重置后的 Dashboard 与 Reports 会显示清空状态。
+- 修复 Practice、快速测和模块测在 390px 手机宽度下被宽答案撑出页面的问题。
+- 对全部页面、五个实验室、错题记录、beta 分项报告、数据导出/重置和证明训练做真实浏览器验收。
+- 新增 `phase-eight.test.js`，覆盖路线图、今日计划、备份字段、证明数据、beta 五部分和响应式回归。
 
 ## 部署到 GitHub Pages
 

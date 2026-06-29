@@ -7,6 +7,8 @@ import { getModuleEvidence, getModuleMasteryPercent, getScoreEstimate, getStudyR
 import { progressBar } from '../components/progressBar.js';
 import { formatDate } from '../utils/format.js';
 import { icon } from '../components/icon.js';
+import { generateTodayTasks } from '../services/studyPlan.js';
+import { studyTaskList } from '../components/studyTaskList.js';
 
 function masteryLabel(percent) {
   return masteryLabels[Math.min(5, Math.floor(percent / 20))] || masteryLabels[0];
@@ -32,6 +34,7 @@ export function renderDashboard() {
   const recommendation = getStudyRecommendation(state, modules, questions, new Date().toISOString().slice(0, 10));
   const estimates = getScoreEstimate(state, modules);
   const estimatedTotal = estimates.reduce((sum, item) => sum + item.estimatedMarks, 0);
+  const todayTasks = generateTodayTasks(state);
 
   return `<section class="page dashboard-page">
     <div class="page-heading"><div><span class="eyebrow">Study Console</span><h1>今天，从最值得复习的地方开始</h1><p>进度只来自课程接触、练习表现和间隔复习证据。</p></div><a class="secondary-button" href="#/reports">${icon('chart-no-axes-combined')} 查看报告</a></div>
@@ -41,6 +44,8 @@ export function renderDashboard() {
       <div><span class="eyebrow">今日学习建议</span><h2>${recommendation.title}</h2><p>${recommendation.reason}</p></div>
       <a class="primary-button" href="${recommendation.route}">${icon('play')} 开始学习</a>
     </section>
+
+    <section class="dashboard-task-panel"><div class="section-heading"><div><span class="eyebrow">Daily Plan</span><h2>今日复习任务</h2></div><a href="#/roadmap">查看考前路线 ${icon('arrow-right')}</a></div>${studyTaskList(todayTasks, { limit: 4 })}</section>
 
     <div class="stats-grid">
       <article class="stat-card stat-primary"><span>总体掌握度</span><strong>${overall}%</strong><small>基于全部课程知识点</small></article>

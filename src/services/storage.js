@@ -14,6 +14,7 @@ const defaultState = {
   reviewSchedule: {},
   attempts: {},
   examHistory: [],
+  proofHistory: [],
   understoodMistakes: [],
   lastSession: null
 };
@@ -35,6 +36,7 @@ export function loadState() {
       mistakes: Array.isArray(parsed.mistakes) ? parsed.mistakes : [],
       attempts: parsed.attempts || {},
       examHistory: Array.isArray(parsed.examHistory) ? parsed.examHistory : [],
+      proofHistory: Array.isArray(parsed.proofHistory) ? parsed.proofHistory : [],
       understoodMistakes: Array.isArray(parsed.understoodMistakes) ? parsed.understoodMistakes : []
     };
   } catch (error) {
