@@ -7,7 +7,9 @@ export const navItems = [
   { href: '#/practice', path: '/practice', label: '练习', icon: 'list-checks' },
   { href: '#/mistakes', path: '/mistakes', label: '错题本', icon: 'notebook-tabs' },
   { href: '#/exam', path: '/exam', label: '模拟考试', icon: 'timer' },
-  { href: '#/reports', path: '/reports', label: '学习报告', icon: 'chart-no-axes-combined' }
+  { href: '#/proofs', path: '/proofs', label: '证明训练', icon: 'graduation-cap' },
+  { href: '#/reports', path: '/reports', label: '学习报告', icon: 'chart-no-axes-combined' },
+  { href: '#/settings', path: '/settings', label: '数据管理', icon: 'settings' }
 ];
 
 function navLinks(className = 'nav-list') {

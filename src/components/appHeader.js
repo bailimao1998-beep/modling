@@ -12,7 +12,9 @@ const routeTitles = {
   '/practice': '专项练习',
   '/mistakes': '错题本',
   '/exam': '模拟考试',
-  '/reports': '学习报告'
+  '/reports': '学习报告',
+  '/proofs': '证明训练',
+  '/settings': '学习数据管理'
 };
 
 export function appHeader() {

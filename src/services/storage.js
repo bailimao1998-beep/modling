@@ -1,7 +1,7 @@
 import { todayISO } from '../utils/format.js';
 import { getNextReviewDate } from './spacedReview.js';
 
-const STORAGE_KEY = 'f11mt-study-state-v1';
+export const STORAGE_KEY = 'f11mt-study-state-v1';
 
 const defaultState = {
   version: 2,

@@ -252,6 +252,59 @@
 .exam-result-row { grid-column: 1 / -1; padding-top: var(--space-3); border-top: 1px solid var(--color-border); }
 .exam-result-row p { margin: var(--space-2) 0; }
 .exam-results > .card-actions { grid-column: 1 / -1; }
+.beta-report { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); padding: var(--space-4) 0; border-top: 1px solid var(--color-border); }
+.beta-report-block { min-width: 0; padding: var(--space-4); background: var(--color-surface-soft); }
+.beta-report-block h3 { margin-bottom: var(--space-3); font-size: 15px; }
+.beta-score-grid, .beta-module-grid { display: grid; gap: var(--space-2); }
+.beta-score-grid article, .beta-module-grid article { display: flex; justify-content: space-between; gap: var(--space-3); padding-bottom: var(--space-2); border-bottom: 1px solid var(--color-border); }
+.beta-score-grid span, .beta-module-grid span { color: var(--color-muted); font-size: 12px; }
+.beta-error-list { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.beta-recommendation-list { display: grid; gap: var(--space-2); }
+.beta-recommendation-list a { display: flex; justify-content: space-between; align-items: center; gap: var(--space-3); padding: var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface); }
+.beta-recommendation-list a:hover { border-color: #9dadab; }
+.beta-recommendation-list strong, .beta-recommendation-list small { display: block; }
+.beta-recommendation-list small { margin-top: 3px; color: var(--color-muted); }
+
+.data-management-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4); }
+.data-action-card, .storage-detail, .proof-target, .proof-workspace, .proof-blanks, .proof-result { border: 1px solid var(--color-border); border-radius: var(--radius-lg); background: var(--color-surface); box-shadow: var(--shadow-sm); }
+.data-action-card { display: grid; grid-template-rows: auto 1fr auto; gap: var(--space-3); min-width: 0; padding: var(--space-5); }
+.data-action-card h2, .data-action-card p { margin-bottom: var(--space-2); }
+.data-action-icon { display: grid; place-items: center; width: 42px; height: 42px; border-radius: var(--radius-md); background: var(--color-primary-soft); color: var(--color-primary); }
+.data-action-card.danger-zone { border-top: 3px solid #b65c5c; }
+.danger-zone .data-action-icon { background: var(--color-danger-soft); color: var(--color-danger); }
+.danger-button { border-color: #d6a7a3; color: var(--color-danger); }
+.storage-detail { display: flex; justify-content: space-between; gap: var(--space-5); margin-top: var(--space-4); padding: var(--space-4); }
+.storage-detail > div { display: grid; gap: 6px; }
+.storage-detail span { color: var(--color-muted); font-size: 12px; }
+.data-feedback { min-height: 48px; margin-top: var(--space-3); padding: var(--space-3); border-radius: var(--radius-md); color: var(--color-muted); }
+.data-feedback:empty { min-height: 0; padding: 0; }
+.data-feedback.is-success { background: var(--color-success-soft); color: var(--color-success); }
+.data-feedback.is-error { background: var(--color-danger-soft); color: var(--color-danger); }
+.data-feedback.is-neutral { background: var(--color-primary-soft); color: var(--color-primary-strong); }
+
+.proof-target { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: var(--space-4); padding: var(--space-5); border-left: 4px solid var(--color-primary); }
+.proof-target > span { display: grid; place-items: center; width: 42px; height: 42px; border-radius: var(--radius-md); background: var(--color-primary-soft); color: var(--color-primary); }
+.proof-target h2, .proof-target p { margin-bottom: var(--space-2); }
+.proof-layout { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(300px, .65fr); gap: var(--space-4); margin-top: var(--space-4); align-items: start; }
+.proof-workspace, .proof-blanks { padding: var(--space-5); }
+.proof-workspace .section-heading { align-items: flex-start; }
+.proof-step-list, .proof-blank-list { display: grid; gap: var(--space-2); }
+.proof-step-card { display: grid; grid-template-columns: 32px minmax(0, 1fr) auto; align-items: center; gap: var(--space-3); padding: var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface-soft); }
+.proof-step-card.is-wrong-order { border-color: #d7a4a0; background: var(--color-danger-soft); }
+.proof-step-card p { margin: 0; color: var(--color-text); font-size: 13px; }
+.proof-step-number { display: grid; place-items: center; width: 30px; height: 30px; border-radius: var(--radius-sm); background: var(--color-primary-soft); color: var(--color-primary); font-weight: 800; }
+.proof-move-controls { display: flex; gap: 2px; }
+.proof-move-controls .icon-button { width: 34px; min-height: 34px; }
+.proof-blank-list label { display: grid; gap: 5px; color: var(--color-muted); font-size: 12px; }
+.proof-blank-list input.is-invalid { border-color: var(--color-danger); background: var(--color-danger-soft); }
+.proof-blanks .primary-button { width: 100%; margin-top: var(--space-4); }
+.proof-result { margin-top: var(--space-4); padding: var(--space-5); }
+.proof-result.is-correct { border-left: 4px solid var(--color-success); }
+.proof-result.is-wrong { border-left: 4px solid var(--color-danger); }
+.proof-template { margin-top: var(--space-4); padding: var(--space-4); background: var(--color-surface-soft); }
+.proof-template p { margin-bottom: var(--space-2); color: var(--color-text); }
+.exam-writing-tip { margin-top: var(--space-4); padding: var(--space-4); border-left: 3px solid var(--color-warning); background: var(--color-warning-soft); }
+.exam-writing-tip p { margin: 5px 0 0; color: #6d5736; }
 
 .report-summary { margin-bottom: var(--space-4); }
 .recommendation-panel { display: grid; grid-template-columns: 52px minmax(0, 1fr) auto; align-items: center; gap: var(--space-5); margin-top: var(--space-4); padding: var(--space-5); border-left: 4px solid #526b55; }
@@ -264,6 +317,7 @@
   .filter-count { grid-row: 1 / 3; grid-column: 3; }
   .exam-mode-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .graph-lab-layout, .probability-lab-layout, .recurrence-lab-layout { grid-template-columns: 1fr; }
+  .data-management-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 700px) {
   .panel-heading { display: grid; }
@@ -287,4 +341,9 @@
   .graph-lab-canvas { min-height: 320px; }
   .density-chart-frame { min-height: 300px; }
   .recurrence-chart-frame { min-height: 280px; }
+  .beta-report, .data-management-grid, .proof-layout { grid-template-columns: 1fr; }
+  .storage-detail { display: grid; }
+  .proof-target { grid-template-columns: 1fr; }
+  .proof-step-card { grid-template-columns: 30px minmax(0, 1fr); }
+  .proof-move-controls { grid-column: 1 / -1; justify-content: flex-end; }
 }

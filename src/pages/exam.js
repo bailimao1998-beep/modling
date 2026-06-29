@@ -3,6 +3,7 @@ import { examTemplates, getExamTemplate } from '../data/examTemplates.js';
 import { gradeQuestion } from '../services/grading.js';
 import { mutateState, recordQuestionAttempt } from '../services/storage.js';
 import { updateTopicMastery } from '../services/progress.js';
+import { buildBetaExamReport } from '../services/examReport.js';
 import { icon, refreshIcons } from '../components/icon.js';
 
 let timerId = null;
@@ -32,6 +33,17 @@ function readAnswer(question) {
 
 function modeChooser() {
   return `<section class="page exam-page"><div class="page-heading"><div><span class="eyebrow">Exam Modes</span><h1>选择一次模拟考试</h1><p>计时开始后仍可标记题目并在提交前返回检查。</p></div></div><div class="exam-mode-grid">${examTemplates.map((template) => `<article class="exam-mode-card ${template.status === 'preview' ? 'is-disabled' : ''}"><span class="mode-icon">${icon(template.id === 'quick' ? 'zap' : template.id === 'module' ? 'layers-3' : 'graduation-cap')}</span><span class="status-label">${template.status === 'open' ? `${template.durationMinutes} 分钟` : '占位预告'}</span><h2>${template.title}</h2><p>${template.description}</p><strong>${template.status === 'open' ? `${template.questionIds.length} 道题` : '完整 50 分卷'}</strong>${template.status === 'open' ? `<a class="primary-button" href="#/exam?mode=${template.id}">${icon('play')} 开始考试</a>` : '<button class="secondary-button" disabled>后续开放</button>'}</article>`).join('')}</div></section>`;
+}
+
+function betaReportMarkup(report) {
+  const moduleLabels = { recurrence: '动态系统与递推关系', graph: '图论（含证明）', probability: '概率论', markov: '马尔可夫链' };
+  const errors = Object.entries(report.errorTypes);
+  return `<section class="beta-report" aria-label="50 分结构模拟卷分析">
+    <div class="beta-report-block" data-beta-sections><h3>五部分得分</h3><div class="beta-score-grid">${report.sections.map((section) => `<article><span>${section.label}</span><strong>${section.score}/${section.maxScore}</strong></article>`).join('')}</div></div>
+    <div class="beta-report-block" data-beta-modules><h3>按模块统计</h3><div class="beta-module-grid">${Object.entries(report.moduleScores).map(([moduleId, value]) => `<article><span>${moduleLabels[moduleId]}</span><strong>${value.score}/${value.maxScore}</strong></article>`).join('')}</div></div>
+    <div class="beta-report-block" data-beta-errors><h3>错误类型</h3><div class="beta-error-list">${errors.length ? errors.map(([label, count]) => `<span class="danger-tag">${label} × ${count}</span>`).join('') : '<span class="success-tag">没有记录到错误类型</span>'}</div></div>
+    <div class="beta-report-block" data-beta-recommendations><h3>自动复习建议</h3><div class="beta-recommendation-list">${report.recommendations.map((item) => `<a href="${item.href}"><span><strong>${item.label}</strong><small>${item.text}</small></span>${icon('arrow-right')}</a>`).join('')}</div></div>
+  </section>`;
 }
 
 export function renderExam() {
@@ -83,10 +95,11 @@ export function bindExamPage() {
     results.forEach(({ question, answer, result }) => recordQuestionAttempt(question, result, answer));
     const score = results.reduce((sum, item) => sum + item.result.score, 0);
     const maxScore = results.reduce((sum, item) => sum + item.result.maxScore, 0);
-    mutateState((state) => { state.examHistory.unshift({ at: new Date().toISOString(), mode, score, maxScore, durationSeconds: template.durationMinutes * 60 - remainingSeconds }); results.forEach(({ question, result }) => updateTopicMastery(state, question.topic, { event: result.correct ? 'exam-correct' : 'wrong' })); });
+    const betaReport = mode === 'full-beta' ? buildBetaExamReport(results) : null;
+    mutateState((state) => { state.examHistory.unshift({ at: new Date().toISOString(), mode, score, maxScore, durationSeconds: template.durationMinutes * 60 - remainingSeconds, breakdown: betaReport ? { sections: betaReport.sections, moduleScores: betaReport.moduleScores, errorTypes: betaReport.errorTypes } : null }); results.forEach(({ question, result }) => updateTopicMastery(state, question.topic, { event: result.correct ? 'exam-correct' : 'wrong' })); });
     const wrongTopics = [...new Set(results.filter((item) => !item.result.correct).map((item) => item.question.topic))];
     const target = document.querySelector('[data-exam-result]');
-    target.innerHTML = `<section class="exam-results"><div class="score-ring"><strong>${score}</strong><span>/ ${maxScore}</span></div><div><span class="eyebrow">Exam Complete</span><h2>本次考试结果</h2><p>${wrongTopics.length ? `建议优先复习：${wrongTopics.join('、')}` : '所有题目完整得分，可以在 48 小时后再做一次巩固。'}</p></div>${results.map(({ question, result }, index) => `<article class="exam-result-row"><div><strong>第 ${index + 1} 题 · ${question.title}</strong><span>${result.score}/${result.maxScore} 分</span></div><p>${result.feedback}</p>${result.errorType ? `<span class="danger-tag">${result.errorType}</span>` : '<span class="success-tag">步骤完整</span>'}${result.stepResults ? `<div class="step-feedback">${result.stepResults.map((step) => `<p class="${step.correct ? 'correct' : 'wrong'}">${step.prompt || step.location}：${step.score ?? 0}/${step.maxScore ?? 1}</p>`).join('')}</div>` : ''}</article>`).join('')}<div class="card-actions"><a class="primary-button" href="#/mistakes">${icon('notebook-tabs')} 查看错题</a><a class="secondary-button" href="#/exam">选择另一模式</a></div></section>`;
+    target.innerHTML = `<section class="exam-results"><div class="score-ring"><strong>${score}</strong><span>/ ${maxScore}</span></div><div><span class="eyebrow">Exam Complete</span><h2>本次考试结果</h2><p>${wrongTopics.length ? `建议优先复习：${wrongTopics.join('、')}` : '所有题目完整得分，可以在 48 小时后再做一次巩固。'}</p></div>${betaReport ? betaReportMarkup(betaReport) : ''}${results.map(({ question, result }, index) => `<article class="exam-result-row"><div><strong>第 ${index + 1} 题 · ${question.title}</strong><span>${result.score}/${result.maxScore} 分</span></div><p>${result.feedback}</p>${result.errorType ? `<span class="danger-tag">${result.errorType}</span>` : '<span class="success-tag">步骤完整</span>'}${result.stepResults ? `<div class="step-feedback">${result.stepResults.map((step) => `<p class="${step.correct ? 'correct' : 'wrong'}">${step.prompt || step.location}：${step.score ?? 0}/${step.maxScore ?? 1}</p>`).join('')}</div>` : ''}</article>`).join('')}<div class="card-actions"><a class="primary-button" href="#/mistakes">${icon('notebook-tabs')} 查看错题</a><a class="secondary-button" href="#/exam">选择另一模式</a></div></section>`;
     refreshIcons(target);
     target.scrollIntoView({ block: 'start' });
   }

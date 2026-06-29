@@ -2,7 +2,7 @@
 
 一个面向 Heriot-Watt University F11MT Modelling and Tools 课程的本地互动复习系统。项目帮助数学基础较弱的学生通过知识地图、可视化实验、分步骤练习、错题记录和间隔复习建立考试所需的稳定解题步骤。
 
-第六阶段补齐动态系统与递推关系课程、实验室、题库和模拟卷结构。矩阵、递推、图论、概率论、马尔可夫链五大模块现已全部开放。
+第七阶段加入本地学习数据管理、50 分 beta 卷分项报告和图拉普拉斯证明训练器。矩阵、递推、图论、概率论、马尔可夫链五大模块均已开放。
 
 ## 本地使用
 
@@ -36,7 +36,9 @@ npm test
 - **练习**：按模块、难度、错误类型和练习记录筛选，支持单选、数值、矩阵和分步骤题。
 - **错题本**：错误统计、今日复习、高频知识点、重做、复习记录和“已理解”状态。
 - **模拟考试**：15 分钟快速测、30 分钟模块测、50 分结构模拟卷 beta、计时、题目标记和步骤分。
+- **证明训练**：通过步骤排序和关键空填空练习 normalized graph Laplacian 半正定证明。
 - **学习报告**：模块掌握度、近 7 天练习、错误分布和薄弱模块建议。
+- **数据管理**：在本地导出、校验导入或二次确认重置学习数据。
 
 ## 技术栈
 
@@ -53,11 +55,11 @@ npm test
 ```text
 src/
   components/     通用界面、公式、题目卡片和知识地图
-  data/           modules、topics、lessons、questions、examTemplates、errorTypes
+  data/           modules、topics、lessons、questions、examTemplates、proofs、errorTypes
   modules/        矩阵、递推、图论、概率论与马尔可夫互动模块
-  pages/          Dashboard、Courses、Lesson、Labs、Practice、Mistakes、Exam、Reports
+  pages/          Dashboard、Courses、Lesson、Labs、Practice、Mistakes、Exam、Proofs、Reports、Settings
   router/         Hash 路由
-  services/       存储、判分、掌握度、筛选、分析和间隔复习
+  services/       存储、判分、考试报告、数据管理、证明判定、分析和间隔复习
   styles/         设计令牌、应用布局和组件样式
   utils/          数学、校验和格式化工具
 tests/            核心逻辑、学习分析、数学与阶段回归测试
@@ -67,6 +69,8 @@ docs/             阶段设计记录与发布验收清单
 ## 学习数据
 
 学习状态保存在浏览器的 `f11mt-study-state-v1` localStorage key 中。当前兼容的 v2 数据结构会继续读取旧记录，不需要手动迁移。异常或不完整数据会回退到安全默认值。
+
+在侧栏进入“数据管理”可以下载 `f11mt-study-backup-YYYY-MM-DD.json`、导入经过结构校验的备份，或经两次确认后重置数据。所有文件都只在当前浏览器中处理，不会上传服务器；重置只删除本项目的 key，不调用 `localStorage.clear()`。
 
 掌握度不会因浏览课程直接升高到“掌握”：课程接触、引导题、独立题、间隔复习和限时考试分别提供不同等级的证据。复习间隔为答对后 2、4、8、15 天，答错后次日重做。
 
@@ -114,6 +118,14 @@ docs/             阶段设计记录与发布验收清单
 - 50 分 beta 卷第 1 题改为递推关系与矩阵形式，共 10 分。
 - Dashboard、Courses、Practice 和 Reports 通过数据层自动接入第五个开放模块。
 
+## 第七阶段完成内容
+
+- 新增学习数据管理页，支持 JSON 导出、结构校验导入、数据概况和二次确认重置。
+- 50 分 beta 卷结果新增五部分得分、模块汇总、错误类型和阈值驱动的复习建议。
+- beta 卷 breakdown 会随考试历史保存在本地，便于后续报告继续使用。
+- 新增图拉普拉斯证明训练器，通过七步排序、五个关键空和完整模板训练证明结构。
+- 新增 `phase-seven.test.js`，覆盖备份、导入校验、考试汇总、错误统计、证明顺序和路由接入。
+
 ## 部署到 GitHub Pages
 
 仓库名为 `modling`，生产构建资源路径已配置为 `/modling/`：
@@ -133,6 +145,6 @@ npm run preview
 
 - 支持复杂自由文本证明题的自动评分。
 - 完成严格计时、完整说明与打印答题册的两小时考试体验。
-- 增加学习数据导出、导入和重置工具。
+- 增加跨设备账号同步；当前 JSON 备份仍需手动管理。
 - 为大体积数学与图表依赖增加按路由加载。
 - 启用 GitHub Pages 后加入自动部署 workflow。
