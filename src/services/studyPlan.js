@@ -1,5 +1,6 @@
 import { modules } from '../data/modules.js';
 import { questions } from '../data/questions.js';
+import { coverageMap } from '../data/coverageMap.js';
 import { getModuleMasteryPercent } from './analytics.js';
 import { addDays, getDueReviews } from './spacedReview.js';
 import { todayISO } from '../utils/format.js';
@@ -34,6 +35,70 @@ function masteryTask(state) {
   };
 }
 
+function coverageTasks(state) {
+  const progress = state.progress?.topics || {};
+  const tasks = [];
+  const highGap = coverageMap.find((item) => item.importance === 'high' && item.status !== 'covered');
+  if (highGap) {
+    tasks.push({
+      id: `coverage-${highGap.id}`,
+      kind: 'coverage',
+      moduleId: highGap.module,
+      title: `补齐高频知识点：${highGap.title}`,
+      reason: `覆盖状态为“${highGap.status}”。${highGap.examNote}`,
+      route: highGap.lessonRoute || '#/coverage',
+      actionLabel: '查看入口'
+    });
+  }
+
+  const noIndependent = coverageMap.find((item) => {
+    const topic = progress[item.topic] || {};
+    return topic.lessonSeen && Number(topic.independentCorrectCount || 0) === 0 && item.independentQuestionIds?.length;
+  });
+  if (noIndependent) {
+    tasks.push({
+      id: `independent-${noIndependent.id}`,
+      kind: 'evidence',
+      moduleId: noIndependent.module,
+      title: `把“看过”变成掌握：${noIndependent.title}`,
+      reason: '你已经接触过这个知识点，但还没有独立题正确证据。',
+      route: `#/practice?module=${noIndependent.module}&question=${noIndependent.independentQuestionIds[0]}`,
+      actionLabel: '做独立题'
+    });
+  }
+
+  const pastPaperGap = coverageMap.find((item) => {
+    const topic = progress[item.topic] || {};
+    return item.source === 'Past Paper 2024-2025' && Number(topic.masteryLevel ?? topic.mastery ?? 0) < 5 && item.examQuestionIds?.length;
+  });
+  if (pastPaperGap) {
+    tasks.push({
+      id: `past-paper-${pastPaperGap.id}`,
+      kind: 'past-paper',
+      moduleId: pastPaperGap.module,
+      title: `真题题型未掌握：${pastPaperGap.title}`,
+      reason: '这个知识点在 2024-2025 往年卷出现过，但还没有考试掌握证据。',
+      route: `#/practice?module=${pastPaperGap.module}&question=${pastPaperGap.examQuestionIds[0]}`,
+      actionLabel: '练真题题型'
+    });
+  }
+
+  const repeatedWrong = coverageMap.find((item) => Number(progress[item.topic]?.recentWrongCount || 0) >= 2);
+  if (repeatedWrong) {
+    tasks.push({
+      id: `wrong-${repeatedWrong.id}`,
+      kind: 'wrong-topic',
+      moduleId: repeatedWrong.module,
+      title: `连续错过：${repeatedWrong.title}`,
+      reason: '最近错误次数偏高，先回到小白解释和引导题。',
+      route: repeatedWrong.lessonRoute || '#/coverage',
+      actionLabel: '回到前置知识'
+    });
+  }
+
+  return tasks.slice(0, 3);
+}
+
 function examTask(state, dateISO) {
   const fullBeta = (state.examHistory || []).find((exam) => exam.mode === 'full-beta');
   if (fullBeta?.at?.slice(0, 10) >= addDays(dateISO, -7)) return null;
@@ -63,6 +128,7 @@ function proofTask(state) {
 export function generateTodayTasks(state, { dateISO = todayISO() } = {}) {
   return [
     ...dueTasks(state, dateISO),
+    ...coverageTasks(state),
     masteryTask(state),
     examTask(state, dateISO),
     proofTask(state)

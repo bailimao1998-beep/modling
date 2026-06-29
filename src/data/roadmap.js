@@ -51,3 +51,54 @@ export const examRoadmap = [
     ]
   }
 ];
+
+export const beginnerLearningPath = [
+  {
+    id: 'beginner-matrix',
+    number: 1,
+    module: 'matrix',
+    title: '先学矩阵和向量基础',
+    reason: '矩阵乘法、状态向量、转移矩阵和图矩阵都需要先读懂行列。',
+    href: '#/lesson?module=matrix'
+  },
+  {
+    id: 'beginner-recurrence',
+    number: 2,
+    module: 'recurrence',
+    title: '再学递推矩阵化',
+    reason: '把 x_k 到 x_{k+1} 的规则写成状态向量，才能拿 Q1 步骤分。',
+    href: '#/lesson?module=recurrence'
+  },
+  {
+    id: 'beginner-graph',
+    number: 3,
+    module: 'graph',
+    title: '再学图论矩阵',
+    reason: '邻接矩阵 A、A^k、L=D-A 和生成树是图论真题主线。',
+    href: '#/lesson?module=graph'
+  },
+  {
+    id: 'beginner-probability',
+    number: 4,
+    module: 'probability',
+    title: '再学概率密度与期望方差',
+    reason: '连续概率是面积，期望和方差是积分题的固定得分点。',
+    href: '#/lesson?module=probability'
+  },
+  {
+    id: 'beginner-markov',
+    number: 5,
+    module: 'markov',
+    title: '再学 Markov chain',
+    reason: '看懂状态顺序、row-vector convention 和平稳分布，才能稳住 Q5。',
+    href: '#/lesson?module=markov'
+  },
+  {
+    id: 'beginner-past-paper',
+    number: 6,
+    module: 'exam',
+    title: '最后做真题训练',
+    reason: '完成四类计算和证明模板后，用 2024-2025 真题训练 beta 检查缺口。',
+    href: '#/exam?mode=past-paper-2024'
+  }
+];

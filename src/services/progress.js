@@ -3,6 +3,38 @@ import { todayISO } from '../utils/format.js';
 
 export const masteryLabels = ['未学习', '已接触', '初步理解', '基本掌握', '稳定掌握', '考试掌握'];
 
+export function computeMasteryLevel(evidence = {}) {
+  if (Number(evidence.examCorrectCount || 0) > 0) return 5;
+  if (evidence.lastReviewedAt) return 4;
+  if (Number(evidence.independentCorrectCount || 0) > 0) return 3;
+  if (Number(evidence.guidedCorrectCount || 0) > 0) return 2;
+  if (evidence.lessonSeen) return 1;
+  return 0;
+}
+
+function applyEvidenceFields(existing = {}, evidence = {}) {
+  const now = new Date().toISOString();
+  const next = {
+    lessonSeen: Boolean(existing.lessonSeen),
+    guidedCorrectCount: Number(existing.guidedCorrectCount || 0),
+    independentCorrectCount: Number(existing.independentCorrectCount || 0),
+    examCorrectCount: Number(existing.examCorrectCount || 0),
+    recentWrongCount: Number(existing.recentWrongCount || 0),
+    lastReviewedAt: existing.lastReviewedAt || null
+  };
+  if (evidence.event === 'lesson-complete') next.lessonSeen = true;
+  if (evidence.event === 'guided-correct') next.guidedCorrectCount += 1;
+  if (evidence.event === 'independent-correct') next.independentCorrectCount += 1;
+  if (evidence.event === 'review-correct-48h') {
+    next.lastReviewedAt = now;
+    next.recentWrongCount = 0;
+  }
+  if (evidence.event === 'exam-correct') next.examCorrectCount += 1;
+  if (evidence.event === 'wrong') next.recentWrongCount += 1;
+  if (evidence.event && evidence.event !== 'wrong') next.recentWrongCount = Math.max(0, next.recentWrongCount);
+  return next;
+}
+
 export function getNextMastery(current = 0, evidence) {
   const event = evidence?.event;
   if (event === 'lesson-complete') return Math.max(current, 1);
@@ -15,11 +47,20 @@ export function getNextMastery(current = 0, evidence) {
 }
 
 export function updateTopicMastery(state, topic, evidence) {
-  const current = state.progress?.topics?.[topic]?.mastery || 0;
-  const mastery = getNextMastery(current, evidence);
+  state.progress ||= { topics: {}, completedQuestions: [], completedCount: 0 };
+  state.progress.topics ||= {};
+  const existing = state.progress?.topics?.[topic] || {};
+  const current = existing.mastery || existing.masteryLevel || 0;
+  const evidenceFields = applyEvidenceFields(existing, evidence);
+  const evidenceMastery = computeMasteryLevel(evidenceFields);
+  const mastery = evidence?.event === 'wrong'
+    ? getNextMastery(current, evidence)
+    : Math.max(getNextMastery(current, evidence), evidenceMastery);
   state.progress.topics[topic] = {
-    ...(state.progress.topics[topic] || {}),
+    ...existing,
+    ...evidenceFields,
     mastery,
+    masteryLevel: mastery,
     lastEvent: evidence.event,
     updatedAt: new Date().toISOString()
   };

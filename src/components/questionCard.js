@@ -7,6 +7,7 @@ import { hintPanel, bindHintPanel } from './hintPanel.js';
 import { stepAnswer, readStepAnswers } from './stepAnswer.js';
 import { icon, refreshIcons } from './icon.js';
 import { renderRichMathText } from '../utils/richMathText.js';
+import { bindConfusionHelp, confusionHelp } from './confusionHelp.js';
 
 const difficultyLabels = { easy: '基础', medium: '进阶', exam: '考试' };
 
@@ -51,6 +52,7 @@ function resultHtml(result, question) {
   return `<div class="result-box ${result.correct ? 'is-correct' : 'is-wrong'}" aria-live="polite">
     <div class="result-heading">${icon(result.correct ? 'check-circle-2' : 'circle-alert')}<strong>${result.correct ? '完成' : '继续修正'} · ${result.score}/${result.maxScore} 分</strong></div>
     <p>${renderRichMathText(result.feedback)}</p>${stepDetails}
+    ${confusionHelp(question.topic, question.module, '我看不懂这一步')}
     <details><summary>完成后查看思路总结</summary><p>${renderRichMathText(question.explanation)}</p></details>
   </div>`;
 }
@@ -96,6 +98,7 @@ export function bindQuestionCard(root, question, options = {}) {
     const result = gradeQuestion(question, userAnswer);
     root.querySelector('[data-result]').innerHTML = resultHtml(result, question);
     refreshIcons(root.querySelector('[data-result]'));
+    bindConfusionHelp(root.querySelector('[data-result]'));
     if (!options.skipStorage) {
       recordQuestionAttempt(question, result, userAnswer);
       mutateState((state) => {

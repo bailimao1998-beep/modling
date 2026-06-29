@@ -3,6 +3,7 @@ import { icon } from './icon.js';
 export const navItems = [
   { href: '#/dashboard', path: '/dashboard', label: '首页', icon: 'layout-dashboard' },
   { href: '#/roadmap', path: '/roadmap', label: '考前路线', icon: 'map' },
+  { href: '#/coverage', path: '/coverage', label: '知识覆盖', icon: 'scan-search' },
   { href: '#/courses', path: '/courses', label: '课程', icon: 'book-open' },
   { href: '#/labs', path: '/labs', label: '互动实验', icon: 'flask-conical' },
   { href: '#/practice', path: '/practice', label: '练习', icon: 'list-checks' },

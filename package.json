@@ -8,7 +8,7 @@
     "build": "vite build",
     "deploy:build": "vite build",
     "preview": "vite preview",
-    "test": "node tests/core.test.js && node tests/phase-two.test.js && node tests/phase-three.test.js && node tests/phase-six.test.js && node tests/phase-seven.test.js && node tests/phase-eight.test.js && node tests/phase-nine.test.js && node tests/phase-ten.test.js && node tests/phase-eleven.test.js && node tests/phase-twelve.test.js && node tests/router-safety.test.js && node tests/phase-thirteen.test.js"
+    "test": "node tests/core.test.js && node tests/phase-two.test.js && node tests/phase-three.test.js && node tests/phase-six.test.js && node tests/phase-seven.test.js && node tests/phase-eight.test.js && node tests/phase-nine.test.js && node tests/phase-ten.test.js && node tests/phase-eleven.test.js && node tests/phase-twelve.test.js && node tests/router-safety.test.js && node tests/phase-thirteen.test.js && node tests/phase-fourteen.test.js"
   },
   "dependencies": {
     "chart.js": "^4.5.1",

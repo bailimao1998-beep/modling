@@ -6,6 +6,7 @@ import { updateTopicMastery } from '../services/progress.js';
 import { buildBetaExamReport } from '../services/examReport.js';
 import { icon, refreshIcons } from '../components/icon.js';
 import { renderRichMathText } from '../utils/richMathText.js';
+import { bindConfusionHelp, confusionHelp } from '../components/confusionHelp.js';
 
 let timerId = null;
 let remainingSeconds = 0;
@@ -104,8 +105,9 @@ export function bindExamPage() {
     mutateState((state) => { state.examHistory.unshift({ at: new Date().toISOString(), mode, score, maxScore, durationSeconds: template.durationMinutes * 60 - remainingSeconds, breakdown: betaReport ? { sections: betaReport.sections, moduleScores: betaReport.moduleScores, errorTypes: betaReport.errorTypes } : null }); results.forEach(({ question, result }) => updateTopicMastery(state, question.topic, { event: result.correct ? 'exam-correct' : 'wrong' })); });
     const wrongTopics = [...new Set(results.filter((item) => !item.result.correct).map((item) => item.question.topic))];
     const target = document.querySelector('[data-exam-result]');
-    target.innerHTML = `<section class="exam-results"><div class="score-ring"><strong>${score}</strong><span>/ ${maxScore}</span></div><div><span class="eyebrow">Exam Complete</span><h2>本次考试结果</h2><p>${wrongTopics.length ? `建议优先复习：${wrongTopics.join('、')}` : '所有题目完整得分，可以在 48 小时后再做一次巩固。'}</p></div>${betaReport ? betaReportMarkup(betaReport) : ''}${results.map(({ question, result }, index) => `<article class="exam-result-row"><div><strong>第 ${index + 1} 题 · ${question.title}</strong><span>${result.score}/${result.maxScore} 分</span></div><p>${renderRichMathText(result.feedback)}</p>${result.errorType ? `<span class="danger-tag">${result.errorType}</span>` : '<span class="success-tag">步骤完整</span>'}${result.stepResults ? `<div class="step-feedback">${result.stepResults.map((step) => `<p class="${step.correct ? 'correct' : 'wrong'}">${renderRichMathText(step.prompt || step.location)}：${step.score ?? 0}/${step.maxScore ?? 1}</p>`).join('')}</div>` : ''}</article>`).join('')}<div class="card-actions"><a class="primary-button" href="#/mistakes">${icon('notebook-tabs')} 查看错题</a><a class="secondary-button" href="#/exam">选择另一模式</a></div></section>`;
+    target.innerHTML = `<section class="exam-results"><div class="score-ring"><strong>${score}</strong><span>/ ${maxScore}</span></div><div><span class="eyebrow">Exam Complete</span><h2>本次考试结果</h2><p>${wrongTopics.length ? `建议优先复习：${wrongTopics.join('、')}` : '所有题目完整得分，可以在 48 小时后再做一次巩固。'}</p></div>${betaReport ? betaReportMarkup(betaReport) : ''}${results.map(({ question, result }, index) => `<article class="exam-result-row"><div><strong>第 ${index + 1} 题 · ${question.title}</strong><span>${result.score}/${result.maxScore} 分</span></div><p>${renderRichMathText(result.feedback)}</p>${result.errorType ? `<span class="danger-tag">${result.errorType}</span>` : '<span class="success-tag">步骤完整</span>'}${result.stepResults ? `<div class="step-feedback">${result.stepResults.map((step) => `<p class="${step.correct ? 'correct' : 'wrong'}">${renderRichMathText(step.prompt || step.location)}：${step.score ?? 0}/${step.maxScore ?? 1}</p>`).join('')}</div>` : ''}${confusionHelp(question.topic, question.module, '我看不懂这一步')}</article>`).join('')}<div class="card-actions"><a class="primary-button" href="#/mistakes">${icon('notebook-tabs')} 查看错题</a><a class="secondary-button" href="#/exam">选择另一模式</a></div></section>`;
     refreshIcons(target);
+    bindConfusionHelp(target);
     target.scrollIntoView({ block: 'start' });
   }
   document.querySelectorAll('[data-submit-exam]').forEach((button) => button.addEventListener('click', () => submitExam(false)));

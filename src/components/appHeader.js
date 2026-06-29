@@ -7,6 +7,7 @@ import { icon } from './icon.js';
 const routeTitles = {
   '/dashboard': '学习首页',
   '/roadmap': '考前复习路线',
+  '/coverage': '知识覆盖地图',
   '/courses': '课程与知识地图',
   '/lesson': '互动课程',
   '/labs': '互动实验',
