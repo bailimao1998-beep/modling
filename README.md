@@ -165,7 +165,7 @@ npm run preview
 
 预览时访问终端给出的 `/modling/` 地址。自动部署定义在 `.github/workflows/pages.yml`，每次向 `main` 推送都会使用 Node 22 执行 `npm ci`、`npm test` 和 `npm run build`，随后上传 `dist` 并部署。
 
-仓库仍需在 `Settings > Pages` 中将 Source 设为 `GitHub Actions`。若尚未完成该仓库级设置，workflow 的部署步骤可能失败；现有 CI workflow 保持独立运行。
+仓库已将 `Settings > Pages` 的 Source 设置为 `GitHub Actions`，首次自动部署已通过。公开地址为 [https://bailimao1998-beep.github.io/modling/](https://bailimao1998-beep.github.io/modling/)；现有 CI workflow 继续独立运行。
 
 ## 后续计划
 
@@ -173,4 +173,3 @@ npm run preview
 - 完成严格计时、完整说明与打印答题册的两小时考试体验。
 - 增加跨设备账号同步；当前 JSON 备份仍需手动管理。
 - 为大体积数学与图表依赖增加按路由加载。
-- 完成 GitHub Pages 仓库级启用并确认首次自动部署。

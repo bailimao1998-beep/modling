@@ -160,7 +160,7 @@ npm run preview
 - Hash router 不依赖服务器端路由回退，适合静态托管。
 - `.github/workflows/pages.yml` 在 `main` push 后使用 Node 22 执行安装、测试和构建。
 - workflow 使用 `upload-pages-artifact@v3` 上传 `dist`，并使用 `deploy-pages@v4` 部署。
-- 启用方法：在 GitHub 仓库 `Settings > Pages` 中将 Source 设为 `GitHub Actions`；未启用前部署 job 可能失败。
+- 仓库 Source 已设为 `GitHub Actions`；首次自动部署已通过，公开地址为 `https://bailimao1998-beep.github.io/modling/`。
 
 ## 0.8.0 真题模式验收
 
