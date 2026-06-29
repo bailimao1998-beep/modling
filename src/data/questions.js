@@ -844,7 +844,7 @@ export const questions = [
     difficulty: 'exam',
     type: 'stepped',
     title: '真题 Q1：递推关系与状态矩阵',
-    question: '给定 x₀=1，x₁=0，x_{k+2}=2x_{k+1}-2x_k。计算 x₂ 到 x₆，并写出状态矩阵 A。',
+    question: '数列满足 x_{k+2}=2x_{k+1}-2x_k，且 x₀=1、x₁=0。（a）计算 x₂ 到 x₆；（b）令 y_k=[x_{k+1},x_k]^T，写出 y_{k+1}=Ay_k 中的状态矩阵 A。',
     steps: [
       { stepId: 's1', prompt: 'x₂ 是多少？', expectedAnswer: -2, marks: 1, validationType: 'numeric', feedbackCorrect: '正确。', feedbackWrong: '计算 2x₁-2x₀。' },
       { stepId: 's2', prompt: 'x₃ 是多少？', expectedAnswer: -4, marks: 1, validationType: 'numeric', feedbackCorrect: '正确。', feedbackWrong: '计算 2x₂-2x₁。' },
@@ -870,7 +870,7 @@ export const questions = [
     difficulty: 'exam',
     type: 'stepped',
     title: '真题 Q2：K4 图论计算',
-    question: '对 K4 完成 degree、长度 2 的 walks、Laplacian 和生成树数量计算。',
+    question: '设 A 为完全图 K4 的邻接矩阵。（a）求每个顶点的 degree 与 (A^2)_13；（b）构造 L=D-A，并用 Matrix-tree theorem 求生成树数量。',
     steps: [
       { stepId: 's1', prompt: '每个顶点 degree 是多少？', expectedAnswer: 3, marks: 2, validationType: 'numeric', feedbackCorrect: '正确。', feedbackWrong: 'K4 的每个顶点连接其余三个顶点。' },
       { stepId: 's2', prompt: '(A²)_13 是多少？', expectedAnswer: 2, marks: 3, validationType: 'numeric', feedbackCorrect: '正确。', feedbackWrong: '长度 2 时可经过另外两个顶点。' },
@@ -890,7 +890,7 @@ export const questions = [
     difficulty: 'exam',
     type: 'stepped',
     title: '真题 Q3：Normalized Laplacian 半正定证明',
-    question: '用关键结构填空完成 symmetric normalized graph Laplacian 为 positive semidefinite 的证明。',
+    question: '设 G 是 connected undirected weighted graph。通过考察二次型 f^T L_sym f，补全证明：symmetric normalized graph Laplacian 是 positive semidefinite。',
     steps: [
       { stepId: 's1', prompt: '加权平方和前的系数是多少？填写 1/2。', expectedAnswer: '1/2', marks: 2, validationType: 'text', feedbackCorrect: '正确。', feedbackWrong: '无向边的两个方向合并后出现 1/2。' },
       { stepId: 's2', prompt: '平方和中的边权符号是什么？填写 a_ij。', expectedAnswer: 'a_ij', marks: 2, validationType: 'text', feedbackCorrect: '正确。', feedbackWrong: '使用 adjacency weight a_ij。' },
@@ -911,7 +911,7 @@ export const questions = [
     difficulty: 'exam',
     type: 'stepped',
     title: '真题 Q4：分段密度与矩',
-    question: '对三角形密度 p(x)=x（0<x≤1）、p(x)=2-x（1<x≤2）完成概率、期望和方差计算。',
+    question: '随机变量 X 的密度为 p(x)=x（0<x≤1）、p(x)=2-x（1<x≤2），其余位置为 0。计算 P(0.5≤X≤1.5)、E[X]、E[X²] 与 Var(X)。',
     steps: [
       { stepId: 's1', prompt: 'P(0.5≤X≤1.5) 是多少？', expectedAnswer: 0.75, marks: 2, validationType: 'numeric', feedbackCorrect: '正确。', feedbackWrong: '在 x=1 处分成两个积分。' },
       { stepId: 's2', prompt: 'E[X] 是多少？', expectedAnswer: 1, marks: 2, validationType: 'numeric', feedbackCorrect: '正确。', feedbackWrong: '密度关于 x=1 对称。' },
@@ -931,7 +931,7 @@ export const questions = [
     difficulty: 'exam',
     type: 'stepped',
     title: '真题 Q5：两步天气预测',
-    question: '默认天气转移矩阵下，取 ρ₀=[0,1,0]。计算 ρ₁ 和 ρ₂。',
+    question: '天气状态按“晴、阴、雨”排列，转移矩阵 P=[[0.4,0.6,0],[0.25,0,0.75],[1,0,0]]。给定初始分布 ρ₀=[0,1,0]，计算 ρ₁ 和 ρ₂。',
     steps: [
       { stepId: 's1', prompt: 'ρ₁ 的晴天概率是多少？', expectedAnswer: 0.25, marks: 2, validationType: 'numeric', feedbackCorrect: '正确。', feedbackWrong: '初始状态为阴天，读取 P 第二行。' },
       { stepId: 's2', prompt: 'ρ₁ 的阴天概率是多少？', expectedAnswer: 0, marks: 2, validationType: 'numeric', feedbackCorrect: '正确。', feedbackWrong: '读取 P 第二行。' },

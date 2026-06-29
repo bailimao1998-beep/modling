@@ -53,7 +53,11 @@ export function renderExam() {
   const template = getExamTemplate(mode);
   const questions = template.questionIds.map(getQuestionById);
   remainingSeconds = template.durationMinutes * 60;
+  const pastPaperNotice = mode === 'past-paper-2024'
+    ? '<aside class="section-note exam-training-note" data-past-paper-notice><strong>真题训练说明</strong><span>这是基于 2024-2025 往年卷整理的训练模式；证明题仍采用结构化半自动判分。目标是训练步骤，不代表学校正式评分。</span></aside>'
+    : '';
   return `<section class="page exam-page"><div class="exam-toolbar"><div><a class="back-link" href="#/exam">${icon('arrow-left')} 退出本次考试</a><span class="eyebrow">${template.title}</span><h1>模拟考试</h1></div><div class="timer" data-timer><small>剩余时间</small><strong>${timeText(remainingSeconds)}</strong></div></div>
+    ${pastPaperNotice}
     <div class="exam-layout"><aside class="exam-nav"><h2>题目导航</h2><div class="exam-legend"><span><i class="answered-dot"></i>已答</span><span><i class="marked-dot"></i>标记</span></div>${questions.map((question, index) => `<button type="button" data-exam-nav="${question.id}" data-exam-scroll="${question.id}" aria-label="跳转到第 ${index + 1} 题"><span>第 ${index + 1} 题</span><small data-nav-status>未答</small></button>`).join('')}<button class="primary-button" data-submit-exam type="button">${icon('send')} 提交试卷</button></aside>
     <div class="exam-paper">${questions.map((question, index) => `<article class="question-card exam-question" id="exam-${question.id}" data-exam-question="${question.id}"><div class="exam-question-head"><div class="question-meta"><span>第 ${index + 1} 题</span><span>${question.marks} 分</span><span>${question.difficulty}</span></div><button class="icon-text-button" data-mark-question type="button">${icon('flag')} <span>标记</span></button></div><h3>${question.title}</h3><p>${renderRichMathText(question.question)}</p>${answerControl(question)}</article>`).join('')}<div class="submit-panel"><h2>准备提交？</h2><p>提交后会显示总分、步骤得分、错误类型和推荐复习内容。</p><button class="primary-button" data-submit-exam type="button">${icon('send')} 提交试卷</button></div><div data-exam-result></div></div></div></section>`;
 }

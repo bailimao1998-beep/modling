@@ -27,7 +27,7 @@ function readMatrix(root, question) {
 }
 
 function answerControl(question) {
-  if (question.type === 'single-choice') return `<div class="choice-list">${question.options.map((option) => `<label class="choice-option"><input name="${question.id}" value="${option}" type="radio" /><span>${option}</span></label>`).join('')}</div>`;
+  if (question.type === 'single-choice') return `<div class="choice-list">${question.options.map((option) => `<label class="choice-option"><input name="${question.id}" value="${option}" type="radio" /><span>${renderRichMathText(option)}</span></label>`).join('')}</div>`;
   if (question.type === 'numeric-fill') return '<input class="answer-input" data-answer-input type="text" inputmode="decimal" autocomplete="off" placeholder="输入数值" />';
   if (question.type === 'matrix-fill') return matrixInputs(question);
   if (question.type === 'stepped') return stepAnswer(question);
@@ -79,7 +79,7 @@ export function bindQuestionCard(root, question, options = {}) {
       const feedback = root.querySelector(`[data-step-feedback="${step.stepId}"]`);
       const item = root.querySelector(`[data-step-item="${step.stepId}"]`);
       if (feedback) {
-        feedback.textContent = result.feedback;
+        feedback.innerHTML = renderRichMathText(result.feedback);
         feedback.className = `step-live-feedback ${result.correct ? 'correct-text' : 'wrong-text'}`;
         feedback.dataset.score = result.score;
       }

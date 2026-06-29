@@ -45,6 +45,7 @@
 .mini-track { height: 6px; overflow: hidden; border-radius: 99px; background: #e5eae8; }
 .mini-track i { display: block; height: 100%; background: #8a6744; }
 .section-note { padding: var(--space-3); border-left: 3px solid var(--color-warning); background: var(--color-warning-soft); color: #75541f; font-size: 13px; }
+.exam-training-note { display: grid; gap: 3px; margin: calc(var(--space-5) * -1) 0 var(--space-5); }
 .recent-session { display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-7); padding-top: var(--space-4); border-top: 1px solid var(--color-border); color: var(--color-muted); font-size: 13px; }
 
 .course-tabs, .lab-jump-nav { display: flex; gap: 3px; overflow-x: auto; margin-bottom: var(--space-5); padding: 3px; border: 1px solid var(--color-border); border-radius: var(--radius-lg); background: #edf1f0; }
